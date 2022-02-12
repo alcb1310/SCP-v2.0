@@ -113,6 +113,7 @@ class PresupuestoController extends AbstractController
                 $this->addFlash('success', $string);
             } else {
                 $string= 'Partida presupuestaria '. $presupuesto->getPartida()->getNombre() .' en la obra ' . $presupuesto->getObra()->getNombre() . ' no pudo ser grabada';
+                $this->addFlash('error', $string);
             }
             return $this->redirectToRoute('presupuesto_show');
         
