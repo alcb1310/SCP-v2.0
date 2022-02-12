@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <a href="{{path('proveedor_add')}}" class='btn btn-primary float-end'>Crear</a>
+    <table class='table caption-top table-hover table-striped'>
+        <caption>Proveedores: </caption>
+        <thead>
+            <tr class='table-primary'>
+                <td align='center'>RUC</td>
+                <td algin='center'>Nombre</td>
+                <td align='center'>Contacto</td>
+                <td algin='center'>Telefono</td>
+                <td align='center'>E-mail</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}
+                <tr>
+                    <td>{{proveedor.ruc}}</td>
+                    <td>{{proveedor.nombre}}</td>
+                    <td>{{proveedor.contacto}}</td>
+                    <td>{{proveedor.telefono}}</td>
+                    <td>{{proveedor.email}}</td>
+                    <td><a href="{{ path('proveedor_edit', {id: proveedor.id})}}"><span class='fa fa-pencil'></span></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

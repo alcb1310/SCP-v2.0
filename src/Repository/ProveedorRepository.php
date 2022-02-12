@@ -19,6 +19,15 @@ class ProveedorRepository extends ServiceEntityRepository
         parent::__construct($registry, Proveedor::class);
     }
 
+    public function getAllOrdered()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.nombre', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Proveedor[] Returns an array of Proveedor objects
     //  */
