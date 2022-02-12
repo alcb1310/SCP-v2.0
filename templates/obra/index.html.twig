@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a href="{{path('obra_add')}}" class='btn btn-primary float-end'>Crear</a>
+    <table class='table'>
+        <thead>
+            <tr>
+                <td>Nombre</td>
+                <td>Casas</td>
+                <td>Activo</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obra in obras %}
+                <tr>
+                    <td>{{ obra.nombre }}</td>
+                    <td>{{ obra.casas }}</td>
+                    <td><span class='fa fa-{{ obra.activo ? 'check' : 'times'}}'></span></td>
+                    <td><a href="{{ path('obra_edit', {id: obra.id}) }}" ><span class='fa fa-pencil'></span></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

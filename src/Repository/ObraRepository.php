@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Obra;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,16 @@ class ObraRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Obra::class);
+    }
+
+    public function getAllActive()
+    {
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.activo = 1')
+                ->addOrderBy('o.nombre', 'ASC')
+                ->getQuery()
+                ->getResult()
+            ;
     }
 
     // /**
