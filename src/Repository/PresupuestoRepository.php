@@ -33,9 +33,12 @@ class PresupuestoRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
                 ->andWhere('o.activo=1')
+                ->andWhere('par.acumula=0')
                 ->join('p.obra', 'o')
                 ->join('p.partida', 'par')
                 ->orderBy('par.codigo')
+                ->addSelect('o')
+                ->addSelect('par')
                 ->getQuery()
                 ->execute()
             ;

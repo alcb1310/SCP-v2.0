@@ -2,21 +2,27 @@
 
 {% block body %}
     <a href="{{path('presupuesto_add')}}" class='btn btn-primary float-end'>Crear</a>
-    <table class='table table-striped table-hover'>
+    <table class='table table-striped table-hover caption-top align-middle'>
+        <caption>Presupuesto:</caption>
         <thead>
-            <tr>
-                <td>Obra</td>
-                <td>Partida</td>
-                <td>Cantini</td>
-                <td>Costini</td>
-                <td>Totalini</td>
-                <td>Rendidocan</td>
-                <td>Rendidotot</td>
-                <td>Porgascan</td>
-                <td>Porgasuni</td>
-                <td>Porgastot</td>
-                <td>Presactu</td>
-                <td>&nbsp;</td>
+            <tr class='table-primary'>
+                <td rowspan='2' align='center' class='align-middle'>Obra</td>
+                <td rowspan='2' align='center' class='align-middle'>Partida</td>
+                <td colspan='3' align='center'>Inicial</td>
+                <td colspan='2' align='center'>Rendido</td>
+                <td colspan='3' align='center'>Por Gastar</td>
+                <td rowspan='2' align='center' class='text-break align-middle'>Presupuesto Actualizado</td>
+                <td rowspan='2'>&nbsp;</td>
+            </tr>
+            <tr class='table-primary'>
+                <td>Cantidad</td>
+                <td>Unitario</td>
+                <td>Total</td>
+                <td>Cantidad</td>
+                <td>Total</td>
+                <td>Cantidad</td>
+                <td>Unitario</td>
+                <td>Total</td>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +33,7 @@
                     <td align='right'>{{ presupuesto.cantini ? presupuesto.cantini|number_format(2, '.', ',') : '' }}</td>
                     <td align='right'>{{ presupuesto.costoini ? presupuesto.costoini|number_format(2, '.', ',') : '' }}</td>
                     <td align='right'>{{ presupuesto.totalini|number_format(2, '.', ',') }}</td>
-                    <td align='right'>{{ presupuesto.rendidocant ? presupuesto.rendidocant|number_format(2, '.', ',') : '' }}</td>
+                    <td align='right'>{{ presupuesto.partida.acumula ? '': presupuesto.rendidocant|number_format(2, '.', ',')  }}</td>
                     <td align='right'>{{ presupuesto.rendidotot|number_format(2, '.', ',') }}</td>
                     <td align='right'>{{ presupuesto.porgascan ? presupuesto.porgascan|number_format(2, '.', ',') : '' }}</td>
                     <td align='right'>{{ presupuesto.porgascost ? presupuesto.porgascost|number_format(2, '.', ',') : ''}}</td>
