@@ -27,11 +27,11 @@ class Partida
     #[ORM\Column(type: 'integer')]
     private $nivel;
 
-    #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    private $padre;
-
     #[ORM\OneToMany(mappedBy: 'partida', targetEntity: Presupuesto::class)]
     private $presupuestos;
+
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    private $padre;
 
     public function __construct()
     {
@@ -91,18 +91,6 @@ class Partida
         return $this;
     }
 
-    public function getPadre(): ?string
-    {
-        return $this->padre;
-    }
-
-    public function setPadre(?string $padre): self
-    {
-        $this->padre = $padre;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Presupuesto[]
      */
@@ -129,6 +117,29 @@ class Partida
                 $presupuesto->setPartida(null);
             }
         }
+
+        return $this;
+    }
+
+    public function codigo()
+    {
+        return $this->codigo;
+    }
+
+    public function __toString()
+    {
+        $val = '[' . $this->codigo . '] ' . $this->nombre;
+        return $val;
+    }
+
+    public function getPadre(): ?self
+    {
+        return $this->padre;
+    }
+
+    public function setPadre(?self $padre): self
+    {
+        $this->padre = $padre;
 
         return $this;
     }

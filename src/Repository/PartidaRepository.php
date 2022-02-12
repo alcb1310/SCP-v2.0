@@ -19,6 +19,28 @@ class PartidaRepository extends ServiceEntityRepository
         parent::__construct($registry, Partida::class);
     }
 
+    /**
+     * @return Partida[] Returns an array of Partida objects
+     */
+    public function getAllOrderedByCodigo()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.codigo', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Partida[] Returns an array of Partida objects
+     */
+    public function findAllParents(){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.acumula=1')
+            ->getQuery()
+            ->execute();
+    }
+
     // /**
     //  * @return Partida[] Returns an array of Partida objects
     //  */
