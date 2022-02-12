@@ -6,6 +6,7 @@ use App\Entity\Obra;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class ObraFormType extends AbstractType
 {
@@ -13,7 +14,7 @@ class ObraFormType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('casas')
+            ->add('casas', NumberType::class)
             ->add('activo')
         ;
     }
