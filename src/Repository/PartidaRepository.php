@@ -41,6 +41,18 @@ class PartidaRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    /**
+     * @return Partida[] Returns an array of Partida objects
+     */
+    public function findAllChilds(){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.acumula=0')
+            ->getQuery()
+            ->execute();
+    }
+
+    
+
     // /**
     //  * @return Partida[] Returns an array of Partida objects
     //  */
