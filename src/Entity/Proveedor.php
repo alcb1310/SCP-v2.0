@@ -2,12 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\ProveedorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProveedorRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProveedorRepository::class)]
+#[UniqueEntity(
+    fields:['ruc'],
+    errorPath:'ruc',
+    message:'RUC ya exste'
+)]
+#[UniqueEntity(
+    fields:['nombre'],
+    errorPath:'nombre',
+    message:'Nombre ya exste'
+)]
 class Proveedor
 {
     #[ORM\Id]
@@ -15,10 +27,10 @@ class Proveedor
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 20)]
+    #[ORM\Column(type: 'string', length: 20, unique:true)]
     private $ruc;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $nombre;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

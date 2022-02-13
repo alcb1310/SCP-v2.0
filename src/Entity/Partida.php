@@ -6,8 +6,19 @@ use App\Repository\PartidaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PartidaRepository::class)]
+#[UniqueEntity(
+    fields:['codigo'],
+    errorPath:'codigo',
+    message:'Codigo de partida ya existe'
+)]
+#[UniqueEntity(
+    fields: ['nombre'],
+    errorPath:'nombre',
+    message: 'Nombre de la partida ya existe'
+)]
 class Partida
 {
     #[ORM\Id]
@@ -15,10 +26,10 @@ class Partida
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    #[ORM\Column(type: 'string', length: 50, unique:true)]
     private $codigo;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique:true)]
     private $nombre;
 
     #[ORM\Column(type: 'boolean')]

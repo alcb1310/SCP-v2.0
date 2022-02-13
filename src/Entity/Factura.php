@@ -4,8 +4,14 @@ namespace App\Entity;
 
 use App\Repository\FacturaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: FacturaRepository::class)]
+#[UniqueEntity(
+    fields:['obra', 'proveedor', 'numero'],
+    errorPath: 'numero',
+    message: 'Factura ya existe',
+)]
 class Factura
 {
     #[ORM\Id]

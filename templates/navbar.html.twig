@@ -74,12 +74,12 @@
           </a>
           <ul class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
             <li><a class='dropdown-item' href='#'>Cambio Contrase&ntilde;a</a></li>
-            <li><a class='dropdown-item' href='#'>Crear Usuario</a></li>
+            <li><a class='dropdown-item' href='{{path('user_show')}}'>Crear Usuario</a></li>
             <li><a class='dropdown-item' href='#'>Resetear Contrase&ntilde;a</a></li>
           </ul>
         </li>
         <li class='nav-item  me-auto'>
-          <a class='nav-link active' href='#'>Salir</a>
+          <a class='nav-link active' href='{{ path('app_logout')}}'>Salir</a>
         </li>
       </ul>
     </div>

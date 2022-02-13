@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <a href="{{path('user_add')}}" class='btn btn-primary float-end'>Crear</a>
+    <table class='table caption-top table-hover table-striped'>
+        <caption>Usuarios: </caption>
+        <thead>
+            <tr style='background: rgb(0, 102, 153); color:white;'>
+                <td align='center'>usuario</td>
+                <td algin='center'>Nombre</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in users %}
+                <tr>
+                    <td>{{usuario.username}}</td>
+                    <td>{{usuario.nombre}}</td>
+                    <td><a href="#"><span class='fa fa-pencil'></span></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
