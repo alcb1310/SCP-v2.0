@@ -35,8 +35,9 @@ class FacturaController extends AbstractController
             $em->persist($data);
             $em->flush();
             $this->addFlash('success', 'Factura creada exitosamente');
-            return $this->redirectToRoute('factura_show');
-            // TODO:  HACER QUE VAYA A CREAR DETALLE
+            return $this->redirectToRoute('detalle_add', [
+                'factura' => $data->getId(),
+            ]);
         }
         return $this->render('factura/form.html.twig', [
             'form' => $form->createView(),
@@ -55,8 +56,9 @@ class FacturaController extends AbstractController
             $em->persist($data);
             $em->flush();
             $this->addFlash('success', 'Factura actualizada exitosamente');
-            return $this->redirectToRoute('factura_show');
-            // TODO:  HACER QUE VAYA A CREAR DETALLE
+            return $this->redirectToRoute('detalle_add', [
+                'factura' => $data->getId(),
+            ]);
         }
         return $this->render('factura/form.html.twig', [
             'form' => $form->createView(),
