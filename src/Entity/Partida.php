@@ -44,9 +44,13 @@ class Partida
     #[ORM\ManyToOne(targetEntity: self::class)]
     private $padre;
 
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: DetalleFactura::class)]
+    private $detalleFacturas;
+
     public function __construct()
     {
         $this->presupuestos = new ArrayCollection();
+        $this->detalleFacturas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,6 +155,36 @@ class Partida
     public function setPadre(?self $padre): self
     {
         $this->padre = $padre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DetalleFactura[]
+     */
+    public function getDetalleFacturas(): Collection
+    {
+        return $this->detalleFacturas;
+    }
+
+    public function addDetalleFactura(DetalleFactura $detalleFactura): self
+    {
+        if (!$this->detalleFacturas->contains($detalleFactura)) {
+            $this->detalleFacturas[] = $detalleFactura;
+            $detalleFactura->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetalleFactura(DetalleFactura $detalleFactura): self
+    {
+        if ($this->detalleFacturas->removeElement($detalleFactura)) {
+            // set the owning side to null (unless already changed)
+            if ($detalleFactura->getPartida() === $this) {
+                $detalleFactura->setPartida(null);
+            }
+        }
 
         return $this;
     }
