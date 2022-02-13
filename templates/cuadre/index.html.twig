@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+     <h3>Factura</h3>
+     {{ form_start(form) }}
+          {{ form_widget(form) }}
+          <button type="submit" class="btn btn-primary float-end ">Buscar</button>
+     {{ form_end(form) }}
+
+     {% if facturas  is defined %}
+          <table class='table table-striped table-hover caption-top'>
+               <caption>Facturas del mes: </caption>
+               <thead>
+                    <tr class='table-primary'>
+                         <td align='center'>Proveedor</td>
+                         <td align='center'>N&uacute;mero</td>
+                         <td align='center'>Fecha</td>
+                         <td align='center'>Total</td>
+                    </tr>
+               </thead>
+               <tbody>
+                    {% for factura in facturas %}
+                         <tr>
+                              <td>{{ factura.proveedor.nombre }}</td>
+                              <td>{{ factura.numero }}</td>
+                              <td>{{ factura.fecha|date('m/d/Y')}}</td>
+                              <td align='right'>{{ factura.total|number_format(2, '.', ',') }}</td>
+                         </tr>
+                    {% endfor %}
+               </tbody>
+          </table>
+     {% endif %}
+{% endblock %}

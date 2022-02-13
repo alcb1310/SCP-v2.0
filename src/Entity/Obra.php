@@ -27,9 +27,13 @@ class Obra
     #[ORM\OneToMany(mappedBy: 'obra', targetEntity: Presupuesto::class)]
     private $presupuestos;
 
+    #[ORM\OneToMany(mappedBy: 'obra', targetEntity: Factura::class)]
+    private $facturas;
+
     public function __construct()
     {
         $this->presupuestos = new ArrayCollection();
+        $this->facturas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,5 +110,35 @@ class Obra
     public function __toString()
     {
         return $this->nombre;
+    }
+
+    /**
+     * @return Collection|Factura[]
+     */
+    public function getFacturas(): Collection
+    {
+        return $this->facturas;
+    }
+
+    public function addFactura(Factura $factura): self
+    {
+        if (!$this->facturas->contains($factura)) {
+            $this->facturas[] = $factura;
+            $factura->setObra($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFactura(Factura $factura): self
+    {
+        if ($this->facturas->removeElement($factura)) {
+            // set the owning side to null (unless already changed)
+            if ($factura->getObra() === $this) {
+                $factura->setObra(null);
+            }
+        }
+
+        return $this;
     }
 }
