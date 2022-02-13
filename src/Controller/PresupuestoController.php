@@ -24,6 +24,14 @@ class PresupuestoController extends AbstractController
         ]);
     }
 
+    #[Route('/control/actual', name: 'control_actual')]
+    public function controlActual(PresupuestoRepository $presupuestoRepository): Response
+    {
+        return $this->render('control/actual.html.twig', [
+            'presupuestos' => $presupuestoRepository->getAllOrdered(),
+        ]);
+    }
+
     #[Route('/presupuesto/add', name: 'presupuesto_add')]
     public function add(Request $request, PartidaRepository $partidaRepository, LoggerInterface $logger, EntityManagerInterface $em, PresupuestoRepository $presupuestoRepository): Response
     {
