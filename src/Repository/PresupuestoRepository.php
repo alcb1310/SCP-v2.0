@@ -41,7 +41,7 @@ class PresupuestoRepository extends ServiceEntityRepository
                 ->addSelect('o')
                 ->addSelect('par')
                 ->getQuery()
-                ->execute()
+                // ->execute()
             ;
     }
 

@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use Exception;
+use Pagerfanta\Pagerfanta;
 use App\Entity\Presupuesto;
+use Psr\Log\LoggerInterface;
 use App\Form\PresupuestoFormType;
 use App\Repository\PartidaRepository;
-use App\Repository\PresupuestoRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use Psr\Log\LoggerInterface;
+use App\Repository\PresupuestoRepository;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +19,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PresupuestoController extends AbstractController
 {
     #[Route('/presupuesto', name: 'presupuesto_show')]
-    public function index(PresupuestoRepository $presupuestoRepository): Response
+    public function index(PresupuestoRepository $presupuestoRepository, Request $request): Response
     {
+        $presupuestos = $presupuestoRepository->getAllOrdered();
+
+        $pagerfanta = new Pagerfanta(new QueryAdapter($presupuestos));
+        $pagerfanta->setMaxPerPage(20);
+        $pagerfanta->setCurrentPage($request->query->get('page', 1));
+
+        // return $this->render('presupuesto/index.html.twig', [
+        //     'pager' => $pagerfanta,
+        // ]);
+
         return $this->render('presupuesto/index.html.twig', [
-            'presupuestos' => $presupuestoRepository->getAllOrdered(),
+            'pager' => $pagerfanta,
         ]);
     }
 

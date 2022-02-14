@@ -27,8 +27,8 @@ class PartidaRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.codigo', 'ASC')
-            ->getQuery()
-            ->getResult()
+            // ->getQuery()
+            // ->getResult()
             ;
     }
 
