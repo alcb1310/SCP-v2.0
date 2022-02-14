@@ -2,22 +2,29 @@
 
 namespace App\Controller;
 
+use Pagerfanta\Pagerfanta;
 use App\Form\ProveedorFormType;
 use App\Repository\ProveedorRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProveedorController extends AbstractController
 {
     #[Route('/proveedor', name: 'proveedor_show')]
-    public function index(ProveedorRepository $proveedorRepository): Response
+    public function index(ProveedorRepository $proveedorRepository, Request $request): Response
     {
         $proveedor = $proveedorRepository->getAllOrdered();
+
+        $pagerfanta = new Pagerfanta(new QueryAdapter($proveedor));
+        $pagerfanta->setMaxPerPage(20);
+        $pagerfanta->setCurrentPage($request->query->get('page', 1));
+
         return $this->render('proveedor/index.html.twig', [
-            'proveedores' => $proveedor,
+            'pager' => $pagerfanta,
         ]);
     }
 

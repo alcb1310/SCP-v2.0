@@ -24,7 +24,7 @@ class ProveedorRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->orderBy('p.nombre', 'ASC')
             ->getQuery()
-            ->getResult()
+            // ->getResult()
             ;
     }
 
