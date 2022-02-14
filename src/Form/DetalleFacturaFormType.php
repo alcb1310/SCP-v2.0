@@ -43,7 +43,10 @@ class DetalleFacturaFormType extends AbstractType
             ])
             ->add('cantidad')
             ->add('unitario')
-            ->add('total')
+            ->add('total', null,[
+                'required' =>false,
+                'disabled' => true,
+            ])
         ;
     }
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PresupuestoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PresupuestoRepository::class)]
@@ -15,11 +16,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Presupuesto
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private $id;
+    
     #[ORM\ManyToOne(targetEntity: Obra::class, inversedBy: 'presupuestos')]
     #[ORM\JoinColumn(nullable: false)]
     private $obra;
 
-    #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Partida::class, inversedBy: 'presupuestos')]
     #[ORM\JoinColumn(nullable: false)]
     private $partida;

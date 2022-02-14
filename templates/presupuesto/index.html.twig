@@ -2,6 +2,7 @@
 
 {% block body %}
     <a href="{{path('presupuesto_add')}}" class='btn btn-primary float-end'>Crear</a>
+    {{ pagerfanta(pager) }}
     <table class='table table-striped table-hover caption-top align-middle'>
         <caption>Presupuesto:</caption>
         <thead>
@@ -26,7 +27,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for presupuesto in presupuestos %}
+            {% for presupuesto in pager %}
                 <tr>
                     <td>{{ presupuesto.obra.nombre }}</td>
                     <td>{{ presupuesto.partida.nombre }}</td>
@@ -44,4 +45,5 @@
             {% endfor %}
         </tbody>
     </table>
+    {{ pagerfanta(pager) }}
 {% endblock %}
