@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Obra;
 use App\Entity\Partida;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Partida|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,10 +48,10 @@ class PartidaRepository extends ServiceEntityRepository
     public function findAllChilds(){
         return $this->createQueryBuilder('p')
             ->andWhere('p.acumula=0')
+            ->join('p.presupuestos', 'pres')
             ->getQuery()
             ->execute();
     }
-
     
 
     // /**

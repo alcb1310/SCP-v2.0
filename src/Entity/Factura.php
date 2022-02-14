@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FacturaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -35,6 +37,14 @@ class Factura
 
     #[ORM\Column(type: 'float')]
     private $total;
+
+    #[ORM\OneToMany(mappedBy: 'factura', targetEntity: DetalleFactura::class)]
+    private $detalleFacturas;
+
+    public function __construct()
+    {
+        $this->detalleFacturas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,5 +109,42 @@ class Factura
         $this->total = $total;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|DetalleFactura[]
+     */
+    public function getDetalleFacturas(): Collection
+    {
+        return $this->detalleFacturas;
+    }
+
+    public function addDetalleFactura(DetalleFactura $detalleFactura): self
+    {
+        if (!$this->detalleFacturas->contains($detalleFactura)) {
+            $this->detalleFacturas[] = $detalleFactura;
+            $detalleFactura->setFactura($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetalleFactura(DetalleFactura $detalleFactura): self
+    {
+        if ($this->detalleFacturas->removeElement($detalleFactura)) {
+            // set the owning side to null (unless already changed)
+            if ($detalleFactura->getFactura() === $this) {
+                $detalleFactura->setFactura(null);
+            }
+        }
+
+        return $this;
+    }
+
+    // TODO:  Eliminar esta funcion para que la forma reciba valores de obra, proveedor y numero de factura
+    public function __toString()
+    {
+        $data = $this->obra->getNombre() . "/" . $this->proveedor->getNombre() . "/" . $this->numero;
+        return $data;
     }
 }
