@@ -63,6 +63,34 @@ def muevePartida():
             db2.rollback()
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
+def muevePresupuesto():
+    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+
+    cur = db.cursor()
+    cur2 = db2.cursor()
+
+    try:
+         query = "select obra_cod, partida_cod, presupuesto_cantini, presupuesto_costoini, presupuesto_totalini, presupuesto_rendidocant, presupuesto_rendidotot, presupuesto_porgascan, presupuesto_porgascost, presupuesto_porgastot, presupuesto_presactu from tbl_presupuesto"
+         cur.execute(query)
+         for obra_cod, partida_cod, presupuesto_cantini, presupusto_costoini, presupuesto_totaliini, presupuesto_rendidocant, presupuesto_rendidotot, presupuesto_porgascan, presupuesto_porgascost, presupuesto_porgastot, presupuesto_presactu in cur:
+              sql = "select id cod, acumula from partida where codigo='"+partida_cod+"'"
+              cur2.execute(sql)
+              for cod, acumula in cur2:
+                   if (acumula == 1):
+                       sql="insert into presupuesto (obra_id, partida_id, totalini, rendidotot, porgastot, presactu) values ("
+                       sql = sql + str(obra_cod) +", " + str(cod) + ", " + str(presupuesto_totaliini) + ", " + str(presupuesto_rendidotot) + ", "  + str(presupuesto_porgastot) + ", " + str(presupuesto_presactu) + ")"
+                   else:
+                       sql="insert into presupuesto (obra_id, partida_id, cantini, costoini, totalini, rendidocant, rendidotot, porgascan, porgascost, porgastot, presactu) values ("
+                       sql = sql + str(obra_cod) +", " + str(cod) + ", " + str(presupuesto_cantini) + ", " + str(presupusto_costoini) + ", " + str(presupuesto_totaliini) + ", " + str(presupuesto_rendidocant) + ", " + str(presupuesto_rendidotot) + ", " + str(presupuesto_porgascan) + ", " + str(presupuesto_porgascost) + ", " + str(presupuesto_porgastot) + ", " + str(presupuesto_presactu) + ")"
+                   cur2.execute(sql)
+         db2.commit()
+    except mysql.Error as e:
+            # Rolling back in case of error
+            db2.rollback()
+            print ("tbl_proveedor MySQL Error: %s" % str(e))
+
 # mueveProveedor()
 # mueveObra()
-muevePartida()
+# muevePartida()
+muevePresupuesto()
