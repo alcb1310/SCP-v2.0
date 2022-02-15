@@ -30,6 +30,20 @@ class ObraRepository extends ServiceEntityRepository
             ;
     }
 
+    public function getSumFacturaTotalByYearAndMonth(Obra $obra)
+    {
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.id = :obra')
+                ->join('o.facturas', 'f')
+                ->select('year(f.fecha) year, month(f.fecha) month, sum(f.total) total')
+                ->setParameter('obra', $obra->getId())
+                ->addGroupBy('year')
+                ->addGroupBy('month')
+                ->getQuery()
+                ->getResult()
+                ;
+    }
+
     // /**
     //  * @return Obra[] Returns an array of Obra objects
     //  */

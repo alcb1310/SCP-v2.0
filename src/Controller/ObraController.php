@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Form\GastoMensualFormType;
 use App\Form\ObraFormType;
 use App\Repository\ObraRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Runtime\ResolverInterface;
 
 class ObraController extends AbstractController
 {
@@ -28,6 +31,7 @@ class ObraController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) { 
             $data = $form->getData();
+            // dd($data);
             $em->persist($data);
             $em->flush();
             $this->addFlash('success', 'Obra creada satisfactoriamente');
@@ -37,6 +41,7 @@ class ObraController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     #[Route('/obra/edit/{id}', name: 'obra_edit')]
     public function edit($id, ObraRepository $obraRepository, EntityManagerInterface $em, Request $request): Response
     {
@@ -53,6 +58,26 @@ class ObraController extends AbstractController
             return $this->redirectToRoute('obra_show');
         }
         return $this->render('obra/form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/obra/gastadomes', name: 'obra_gasmes')]
+    public function gastadoMensual(ObraRepository $obraRepository, Request $request)
+    {
+        $form = $this->createForm(GastoMensualFormType::class);
+        $form->handleRequest($request);
+        $facturas = [];
+        if ($form->isSubmitted() ) { 
+            $data = $form->getData();
+            // dd($data->getNombre());
+            $obra = $obraRepository->findOneBy(['nombre' => $data->getNombre()]);
+            $facturas = $obraRepository->getSumFacturaTotalByYearAndMonth($obra);
+        }
+
+        dump($facturas);
+        return $this->render('obra/gastadomensual.html.twig', [
+            'valores' => $facturas,
             'form' => $form->createView(),
         ]);
     }
