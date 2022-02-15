@@ -30,6 +30,22 @@ class PresupuestoRepository extends ServiceEntityRepository
         $this->registry = $registry;
     }
 
+    public function getAllOrderedObra($obraid)
+    {
+        return $this->createQueryBuilder('p')
+                ->andWhere('o.activo=1')
+                ->andWhere('p.obra = :obra')
+                ->join('p.obra', 'o')
+                ->join('p.partida', 'par')
+                ->setParameter('obra', $obraid)
+                ->orderBy('par.codigo')
+                ->addSelect('o')
+                ->addSelect('par')
+                ->getQuery()
+                ->execute()
+                ;
+    }
+
     public function getAllOrdered()
     {
         return $this->createQueryBuilder('p')
