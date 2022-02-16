@@ -164,6 +164,33 @@ def mueveControl():
             db2.rollback()
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
+def mueveActual():
+    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+
+    cur = db.cursor()
+    cur2 = db2.cursor()
+
+    try:
+        sql = "select obra_cod, partida_cod, actual_fecha, actual_casas, actual_total from tbl_actual"
+        cur.execute(sql)
+
+        for obra_cod, partida_cod, actual_fecha, actual_casas, actual_total in cur:
+            sql = "select id cod, acumula from partida where codigo='"+partida_cod+"'"
+            cur2.execute(sql)
+            for cod, acumula in cur2:
+                if (actual_casas):
+                    query = "insert into actual (obra_id, partida_id, fecha, casas, total) values (%s, %s, %s, %s, %s)"
+                    cur2.execute(query, (obra_cod, cod, actual_fecha, actual_casas, actual_total))
+                else:
+                    query = "insert into actual (obra_id, partida_id, fecha, total) values (%s, %s, %s, %s)"
+                    cur2.execute(query, (obra_cod, cod, actual_fecha, actual_total))
+            
+        db2.commit()
+    except mysql.Error as e:
+            # Rolling back in case of error
+            db2.rollback()
+            print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 # mueveProveedor()
 # mueveObra()
@@ -171,4 +198,5 @@ def mueveControl():
 # muevePresupuesto()
 # mueveFactura()
 # mueveDetalle()
-mueveControl()
+# mueveControl()
+# mueveActual()
