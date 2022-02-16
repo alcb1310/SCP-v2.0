@@ -6,6 +6,7 @@ use App\Repository\FacturaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: FacturaRepository::class)]
@@ -13,6 +14,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     fields:['obra', 'proveedor', 'numero'],
     errorPath: 'numero',
     message: 'Factura ya existe',
+)]
+#[UniqueConstraint(
+    columns: ['obra_id', 'proveedor_id', 'numero']
 )]
 class Factura
 {

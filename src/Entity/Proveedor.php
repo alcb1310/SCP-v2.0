@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProveedorRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,6 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields:['nombre'],
     errorPath:'nombre',
     message:'Nombre ya exste'
+)]
+#[UniqueConstraint(
+    columns: ['ruc']
+)]
+#[UniqueConstraint(
+    columns: ['nombre']
 )]
 class Proveedor
 {

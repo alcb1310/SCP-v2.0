@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PresupuestoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PresupuestoRepository::class)]
@@ -12,6 +13,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     fields:['obra', 'partida'],
     errorPath:'partida',
     message:'Ya existe esa partida en la obra'
+)]
+#[UniqueConstraint(
+    columns: ['obra_id', 'partida_id']
 )]
 class Presupuesto
 {
