@@ -47,10 +47,26 @@ class Partida
     #[ORM\OneToMany(mappedBy: 'partida', targetEntity: DetalleFactura::class)]
     private $detalleFacturas;
 
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: Control::class)]
+    private $controls;
+
+    private $total;
+
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
     public function __construct()
     {
         $this->presupuestos = new ArrayCollection();
         $this->detalleFacturas = new ArrayCollection();
+        $this->controls = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +199,36 @@ class Partida
             // set the owning side to null (unless already changed)
             if ($detalleFactura->getPartida() === $this) {
                 $detalleFactura->setPartida(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Control[]
+     */
+    public function getControls(): Collection
+    {
+        return $this->controls;
+    }
+
+    public function addControl(Control $control): self
+    {
+        if (!$this->controls->contains($control)) {
+            $this->controls[] = $control;
+            $control->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeControl(Control $control): self
+    {
+        if ($this->controls->removeElement($control)) {
+            // set the owning side to null (unless already changed)
+            if ($control->getPartida() === $this) {
+                $control->setPartida(null);
             }
         }
 

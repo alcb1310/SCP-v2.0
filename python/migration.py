@@ -136,9 +136,39 @@ def mueveDetalle():
         db2.rollback()
         print ("tbl_proveedor MySQL Error: %s" % str(e))
 
-mueveProveedor()
-mueveObra()
-muevePartida()
-muevePresupuesto()
-mueveFactura()
-mueveDetalle()
+def mueveControl():
+    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+
+    cur = db.cursor()
+    cur2 = db2.cursor()
+
+    try:
+        query = "select obra_cod, partida_cod, control_fecha, control_cantini, control_costoini, control_totalini, control_rendidocant, control_rendidotot, control_porgascan, control_porgascost, control_porgastot, control_presactu from tbl_control"
+        cur.execute(query)
+        for obra_cod, partida_cod, control_fecha, control_cantini, control_costoini, control_totalini, control_rendidocant, control_rendidotot, control_porgascan, control_porgascost, control_porgastot, control_presactu in cur:
+            sql = "select id cod, acumula from partida where codigo='"+partida_cod+"'"
+            cur2.execute(sql)
+            for cod, acumula in cur2:
+                # print (control_fecha)
+                # print (str(acumula))
+                if (acumula == 1):
+                    sql="insert into control (obra_id, partida_id, fecha, totalini, rendidotot, porgastot, presactu) values ("+str(obra_cod)+", "+str(cod)+", %s, "+str(control_totalini)+", "+str(control_rendidotot)+", "+str(control_porgastot)+", "+str(control_presactu)+")"
+                    cur2.execute(sql, (  control_fecha, ))
+                else:
+                        sql="insert into control (obra_id, partida_id, fecha, cantini, costoini, totalini, rendidocant, rendidotot, porgascan, porgascost, porgastot, presactu) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                        cur2.execute(sql, (obra_cod, cod, control_fecha, control_cantini, control_costoini, control_totalini, control_rendidocant, control_rendidotot, control_porgascan, control_porgascost, control_porgastot, control_presactu))
+        db2.commit()
+    except mysql.Error as e:
+            # Rolling back in case of error
+            db2.rollback()
+            print ("tbl_proveedor MySQL Error: %s" % str(e))
+
+
+# mueveProveedor()
+# mueveObra()
+# muevePartida()
+# muevePresupuesto()
+# mueveFactura()
+# mueveDetalle()
+mueveControl()
