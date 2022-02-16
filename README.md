@@ -18,5 +18,21 @@ Como parte de la funcionalidad de Symfony para poder pasar a producci&oacute;n e
 symfony new <project>
 ```
 
-2. second
-3. third
+2. Dentro de la carpeta del projecto, se ejecuta el siguiente comando:
+
+```
+git clone <project>
+```
+
+con esto se tiene el sistema en el servidor, luego se ejecuta el siguiente comando:
+
+```
+git pull origin main
+```
+
+solo para asegurarse de tener la ultima versi&oacute; 3. Symfony se basa en paquetes, los cuales no se graban en git, por lo que hay que obtenerlos manualmente ejecutar los siguientes comandos:
+
+```
+composer require  symfony/apache-pack
+composer require doctrine/annotations
+```
