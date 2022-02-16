@@ -1,14 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
 {% block body %}
      {{ form_start(form) }}
           {{ form_widget(form) }}
+          <a href="{{ path('app_homepage') }}" class="btn btn-primary float-end ms-3">Regresar</a>
           <button type="submit" class="btn btn-primary float-end ">Buscar</button>
      {{ form_end(form) }}
-    <table class='table table-striped table-hover caption-top align-middle'>
+     <table class='table table-striped table-hover caption-top align-middle'>
         <caption>Control Actual:</caption>
         <thead>
             <tr class='table-primary'>
+                <td rowspan='2' align='center' class='align-middle'>C&oacute;digo</td>
                 <td rowspan='2' align='center' class='align-middle'>Partida</td>
                 <td colspan='3' align='center'>Inicial</td>
                 <td colspan='2' align='center'>Rendido</td>
@@ -27,8 +29,9 @@
             </tr>
         </thead>
         <tbody>
-            {% for presupuesto in presupuestos %}
+            {% for presupuesto in controles %}
                 <tr>
+                    <td>{{presupuesto.partida.codigo}}</td>
                     <td>{{ presupuesto.partida.nombre }}</td>
                     <td align='right'>{{ presupuesto.cantini ? presupuesto.cantini|number_format(2, '.', ',') : '' }}</td>
                     <td align='right'>{{ presupuesto.costoini ? presupuesto.costoini|number_format(2, '.', ',') : '' }}</td>

@@ -39,6 +39,28 @@ class DetalleFactura
     private $obranombre;
     private $proveedornombre;
     private $facturanum;
+    private $fecha;
+    private $nivel;
+
+    public function setNivel($nivel)
+    {
+        $this->nivel = $nivel;
+    }
+
+    public function getNivel()
+    {
+        return $this->nivel;
+    }
+
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    }
+
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
 
     public function setFacturanum($var)
     {

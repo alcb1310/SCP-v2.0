@@ -5,6 +5,7 @@ namespace App\Controller;
 use Exception;
 use Pagerfanta\Pagerfanta;
 use App\Entity\Presupuesto;
+use App\Form\ControlActualFormType;
 use Psr\Log\LoggerInterface;
 use App\Form\PresupuestoFormType;
 use App\Repository\PartidaRepository;
@@ -37,10 +38,21 @@ class PresupuestoController extends AbstractController
     }
 
     #[Route('/control/actual', name: 'control_actual')]
-    public function controlActual(PresupuestoRepository $presupuestoRepository): Response
+    public function controlActual(PresupuestoRepository $presupuestoRepository, Request $request): Response
     {
+        $form = $this->createForm(ControlActualFormType::class);
+
+        $form->handleRequest($request);
+        $presupuestos = $presupuestoRepository;
+        // dd ($presupuestos);
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $data = $form->getData();
+            dump($data);
+            $presupuestos = $presupuestoRepository->getAllOrderedObra($data->getObra()->getId());
+        }
         return $this->render('control/actual.html.twig', [
-            'presupuestos' => $presupuestoRepository->getAllOrdered(),
+            'presupuestos' => $presupuestos,
+            'form' => $form->createView(),
         ]);
     }
 
