@@ -12,6 +12,6 @@ Se crean "Entidades" de symfony para cada tabla de la base de datos, pero esto f
 
 Como parte de la funcionalidad de Symfony para poder pasar a producci&oacute;n el sistema, se requiere hacer una serie de pasos, los cuales se describen a continuaci&oacute;n;
 
-1. Hay que crear la carpeta con la estructura base de Symfony. Para esto se utiliza el comando `symfony new <project>`
+1. Hay que crear la carpeta con la estructura base de Symfony. Para esto se utiliza el comando <div> `symfony new <project>`</div>
 2. second
 3. third
