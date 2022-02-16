@@ -30,9 +30,39 @@ con esto se tiene el sistema en el servidor, luego se ejecuta el siguiente coman
 git pull origin main
 ```
 
-solo para asegurarse de tener la ultima versi&oacute; 3. Symfony se basa en paquetes, los cuales no se graban en git, por lo que hay que obtenerlos manualmente ejecutar los siguientes comandos:
+3. solo para asegurarse de tener la ultima versi&oacute; 3. Symfony se basa en paquetes, los cuales no se graban en git, por lo que hay que obtenerlos manualmente ejecutar los siguientes comandos:
 
 ```
-composer require  symfony/apache-pack
-composer require doctrine/annotations
+composer require  annotations
+composer require template
+composer require profiler --dev
+composer require symfony/asset
+composer require maker --dev
+composer require orm
+composer require form-validator
+composer require symfony/apache-pack
+composer require beberlei/doctrineextensions
+composer require security
+composer require babdev/pagerfanta-bundle
+composer require pagerfanta/doctrine-orm-adapter
+composer require pagerfanta/twig
+```
+
+4. Una vez ejecutado esto hay que tener el archivo de configuracion .env de manera local, para esto se ejecuta:
+
+```
+composer dump-env prod
+```
+
+5. Editamos la configuracion del servidor de MySQL con el usuario, contrase&ntilde;a y nombre de base de datos (si no se utiliza scp como nombre, habria que cambiar tambien el archivo `python/migration.py`)
+6. Para crear la base de datos utilizamos el siguiente comando:
+
+```
+php bin/console doctrine:database:create
+```
+
+7. Para crear las tablas se debe ejecutar el siguiente comando:
+
+```
+php bin/console doctrine:migrations:migrate
 ```
