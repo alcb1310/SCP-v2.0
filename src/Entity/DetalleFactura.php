@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DetalleFacturaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: DetalleFacturaRepository::class)]
@@ -11,6 +12,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     fields:['factura', 'partida'],
     errorPath:'partida',
     message:'Ya existe esa partida para la factura'
+)]
+#[UniqueConstraint(
+    columns:['factura_id', 'partida_id']
 )]
 class DetalleFactura
 {

@@ -6,6 +6,7 @@ use App\Repository\ObraRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ObraRepository::class)]
@@ -13,6 +14,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     fields:['nombre'],
     errorPath:'nombre',
     message:'Obra ya existe'
+)]
+#[UniqueConstraint(
+    columns: ['nombre']
 )]
 class Obra
 {
@@ -42,12 +46,16 @@ class Obra
     #[ORM\OneToMany(mappedBy: 'obra', targetEntity: Actual::class)]
     private $actuals;
 
+    #[ORM\OneToMany(mappedBy: 'obra', targetEntity: Flujo::class)]
+    private $flujos;
+
     public function __construct()
     {
         $this->presupuestos = new ArrayCollection();
         $this->facturas = new ArrayCollection();
         $this->controls = new ArrayCollection();
         $this->actuals = new ArrayCollection();
+        $this->flujos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,6 +218,36 @@ class Obra
             // set the owning side to null (unless already changed)
             if ($actual->getObra() === $this) {
                 $actual->setObra(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Flujo[]
+     */
+    public function getFlujos(): Collection
+    {
+        return $this->flujos;
+    }
+
+    public function addFlujo(Flujo $flujo): self
+    {
+        if (!$this->flujos->contains($flujo)) {
+            $this->flujos[] = $flujo;
+            $flujo->setObra($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFlujo(Flujo $flujo): self
+    {
+        if ($this->flujos->removeElement($flujo)) {
+            // set the owning side to null (unless already changed)
+            if ($flujo->getObra() === $this) {
+                $flujo->setObra(null);
             }
         }
 

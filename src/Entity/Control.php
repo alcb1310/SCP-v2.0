@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ControlRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ControlRepository::class)]
@@ -11,6 +12,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     fields:['obra', 'partida', 'fecha'],
     errorPath: 'fecha',
     message: 'La partida para esa obra en esa fecha ya existe'
+)]
+#[UniqueConstraint(
+    columns: ['obra_id', 'partida_id', 'fecha']
 )]
 class Control
 {
