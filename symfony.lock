@@ -5,6 +5,9 @@
     "beberlei/doctrineextensions": {
         "version": "v1.3.0"
     },
+    "components/jquery": {
+        "version": "3.6.0"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {

@@ -2,7 +2,7 @@ import mysql.connector as mysql
 
 def mueveProveedor():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -25,7 +25,7 @@ def mueveProveedor():
 
 def mueveObra():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -45,7 +45,7 @@ def mueveObra():
 
 def muevePartida():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -65,7 +65,7 @@ def muevePartida():
 
 def muevePresupuesto():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -92,7 +92,7 @@ def muevePresupuesto():
 
 def mueveFactura():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -111,7 +111,7 @@ def mueveFactura():
 
 def mueveDetalle():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -138,7 +138,7 @@ def mueveDetalle():
 
 def mueveControl():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -166,7 +166,7 @@ def mueveControl():
 
 def mueveActual():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -194,7 +194,7 @@ def mueveActual():
 
 def mueveFlujo():
     db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
-    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
 
     cur = db.cursor()
     cur2 = db2.cursor()
@@ -215,6 +215,27 @@ def mueveFlujo():
             db2.rollback()
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
+def mueveUser():
+    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db2 = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='scp2')
+
+    cur = db.cursor()
+    cur2 = db2.cursor()
+
+    try:
+        sql = "select user_code, user_name, user_pass, user_nom, user_ape from tbl_user"
+        cur.execute(sql)
+        for user_code, user_name, user_pass, user_nom, user_ape in cur:
+            sql = "insert into user (id, username, password, nombre, roles) values (%s, %s, %s, %s, '[]')"
+            fullName = user_nom+ " " + user_ape
+            cur2.execute(sql, (user_code, user_name, user_pass, fullName))
+        db2.commit()
+    except mysql.Error as e:
+            # Rolling back in case of error
+            db2.rollback()
+            print ("tbl_proveedor MySQL Error: %s" % str(e))
+
+
 # mueveProveedor()
 # mueveObra()
 # muevePartida()
@@ -223,4 +244,5 @@ def mueveFlujo():
 # mueveDetalle()
 # mueveControl()
 # mueveActual()
-mueveFlujo()
+# mueveFlujo()
+mueveUser()

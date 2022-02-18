@@ -65,6 +65,9 @@ class Partida
     #[ORM\OneToMany(mappedBy: 'partida', targetEntity: Flujo::class)]
     private $flujos;
 
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: ActualHistorico::class)]
+    private $actualHistoricos;
+
     public function setTotal($total)
     {
         $this->total = $total;
@@ -82,6 +85,7 @@ class Partida
         $this->controls = new ArrayCollection();
         $this->actuals = new ArrayCollection();
         $this->flujos = new ArrayCollection();
+        $this->actualHistoricos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,6 +308,36 @@ class Partida
             // set the owning side to null (unless already changed)
             if ($flujo->getPartida() === $this) {
                 $flujo->setPartida(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ActualHistorico>
+     */
+    public function getActualHistoricos(): Collection
+    {
+        return $this->actualHistoricos;
+    }
+
+    public function addActualHistorico(ActualHistorico $actualHistorico): self
+    {
+        if (!$this->actualHistoricos->contains($actualHistorico)) {
+            $this->actualHistoricos[] = $actualHistorico;
+            $actualHistorico->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActualHistorico(ActualHistorico $actualHistorico): self
+    {
+        if ($this->actualHistoricos->removeElement($actualHistorico)) {
+            // set the owning side to null (unless already changed)
+            if ($actualHistorico->getPartida() === $this) {
+                $actualHistorico->setPartida(null);
             }
         }
 

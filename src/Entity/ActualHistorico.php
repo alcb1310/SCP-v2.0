@@ -2,39 +2,42 @@
 
 namespace App\Entity;
 
-use App\Repository\ActualRepository;
+use App\Repository\ActualHistoricoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: ActualRepository::class)]
+#[ORM\Entity(repositoryClass: ActualHistoricoRepository::class)]
 #[UniqueEntity(
     fields: ['obra', 'partida', 'fecha'],
     errorPath: 'fecha',
-    message: 'La partida en esa obra y fecha ya existe'
+    message: 'La partida para esa obra y esa fecha ya existe'
 )]
 #[UniqueConstraint(
-    columns: ['obra_id', 'partida_id']
+    columns:['obra_id', 'partida_id', 'fecha']
 )]
-class Actual
+class ActualHistorico
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Obra::class, inversedBy: 'actuals')]
+    #[ORM\ManyToOne(targetEntity: Obra::class, inversedBy: 'actualHistoricos')]
     #[ORM\JoinColumn(nullable: false)]
     private $obra;
 
-    #[ORM\ManyToOne(targetEntity: Partida::class, inversedBy: 'actuals')]
+    #[ORM\ManyToOne(targetEntity: Partida::class, inversedBy: 'actualHistoricos')]
     #[ORM\JoinColumn(nullable: false)]
     private $partida;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'date')]
+    private $fecha;
+
+    #[ORM\Column(type: 'integer', nullable:true)]
     private $casas;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'float')]
     private $total;
 
     public function getId(): ?int
@@ -66,6 +69,18 @@ class Actual
         return $this;
     }
 
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(\DateTimeInterface $fecha): self
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
     public function getCasas(): ?int
     {
         return $this->casas;
@@ -83,7 +98,7 @@ class Actual
         return $this->total;
     }
 
-    public function setTotal(?float $total): self
+    public function setTotal(float $total): self
     {
         $this->total = $total;
 
