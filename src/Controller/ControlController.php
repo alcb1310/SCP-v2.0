@@ -18,14 +18,16 @@ class ControlController extends AbstractController
         $form->handleRequest($request);
         
         $control=[];
+        $fecha = null;
         if ($form->isSubmitted() && $form->isValid()) { 
             $data = $form->getData();
-
+            $fecha = $data->getFecha();
             $control = $controlRepository->getByNivel($data->getObra()->getId(), $data->getNivel(), $data->getFecha());
         }
         return $this->render('control/index.html.twig', [
             'form' => $form->createView(),
             'controles' => $control,
+            'fecha' => $fecha
         ]);
     }
 }

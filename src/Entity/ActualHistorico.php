@@ -34,7 +34,7 @@ class ActualHistorico
     #[ORM\Column(type: 'date')]
     private $fecha;
 
-    #[ORM\Column(type: 'integer', nullable:true)]
+    #[ORM\Column(type: 'float', nullable:true)]
     private $casas;
 
     #[ORM\Column(type: 'float')]
@@ -81,12 +81,12 @@ class ActualHistorico
         return $this;
     }
 
-    public function getCasas(): ?int
+    public function getCasas(): ?float
     {
         return $this->casas;
     }
 
-    public function setCasas(int $casas): self
+    public function setCasas(float $casas): self
     {
         $this->casas = $casas;
 
