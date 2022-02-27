@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PartidaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Schema\UniqueConstraint;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PartidaRepository::class)]
 #[UniqueEntity(
@@ -26,6 +28,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueConstraint(
     columns: ['nombre']
 )]
+#[ApiResource(
+    collectionOperations:[
+        'get'
+    ],
+    itemOperations:[
+        'get'
+    ]
+)]
 class Partida
 {
     #[ORM\Id]
@@ -34,9 +44,17 @@ class Partida
     private $id;
 
     #[ORM\Column(type: 'string', length: 50, unique:true)]
+    #[Groups([
+        'presupuesto:read',
+        'proveedor:read'
+    ])]
     private $codigo;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
+    #[Groups([
+        'presupuesto:read',
+        'proveedor:read'
+    ])]
     private $nombre;
 
     #[ORM\Column(type: 'boolean')]

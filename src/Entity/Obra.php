@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ObraRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ObraRepository;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ObraRepository::class)]
@@ -18,6 +20,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueConstraint(
     columns: ['nombre']
 )]
+#[ApiResource(
+    collectionOperations:[
+        'get'
+    ], 
+    itemOperations:[
+        'get'
+    ]
+)]
 class Obra
 {
     #[ORM\Id]
@@ -26,9 +36,15 @@ class Obra
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
+    #[Groups([
+        'presupuesto:read',
+    ])]
     private $nombre;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups([
+        'presupuesto:read',
+    ])]
     private $casas;
 
     #[ORM\Column(type: 'boolean')]
