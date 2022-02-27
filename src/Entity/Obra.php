@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ObraRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ObraRepository::class)]
@@ -22,10 +24,30 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 #[ApiResource(
     collectionOperations:[
-        'get'
+        'get' => [
+            'groups' => [
+                'obra:read'
+            ]
+        ]
     ], 
     itemOperations:[
-        'get'
+        'get'=> [
+            'groups' => [
+                'obra:read'
+            ]
+        ]
+    ],
+    normalizationContext:[
+        'groups' => 'obra:read'
+    ],
+    denormalizationContext:[
+        'groups' => 'obra:write'
+    ]
+)]
+#[ApiFilter(
+    BooleanFilter::class,
+    properties:[
+        'activo'
     ]
 )]
 class Obra
@@ -38,16 +60,21 @@ class Obra
     #[ORM\Column(type: 'string', length: 255, unique:true)]
     #[Groups([
         'presupuesto:read',
+        'obra:read'
     ])]
     private $nombre;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     #[Groups([
         'presupuesto:read',
+        'obra:read'
     ])]
     private $casas;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups([
+        'obra:read'
+    ])]
     private $activo;
 
     #[ORM\OneToMany(mappedBy: 'obra', targetEntity: Presupuesto::class)]

@@ -22,6 +22,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     columns: ['obra_id', 'partida_id']
 )]
 #[ApiResource(
+    attributes:[
+        'pagination_enabled' => false,
+    ],
     collectionOperations:[
         'get' =>[
             'normalization_context' =>[
@@ -50,7 +53,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ApiFilter(
     SearchFilter::class,
     properties:[
-        'obra.nombre' => 'exact'
+        'obra' => 'exact'
     ]
 )]
 class Presupuesto

@@ -1,4 +1,7 @@
 import axios from 'axios';
-export function fetchObras() {
-  return axios.get();
+
+export function fetchPresupuesto(obraIRI) {
+  return axios.get('/api/presupuestos', {
+    params: { obra: obraIRI },
+  });
 }
