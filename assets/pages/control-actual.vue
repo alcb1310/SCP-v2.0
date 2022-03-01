@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div class="form-group">
+    <div class="form-group border shadow p-4">
+      <button
+        class="btn btn-success float-end mb-2"
+        @click="buscaDatos($event)"
+      >
+        Buscar
+      </button>
       <label for="obra-vue">Obra</label>
       <select
         name="obra-vue"
@@ -16,19 +22,26 @@
       <div id="obra-vueFeedback" v-show="!isValid" class="invalid-feedback">
         {{ error }}
       </div>
-      <button class="btn btn-success float-end m-4" @click="buscaDatos($event)">
-        Buscar
-      </button>
+      <label for="nivel" class="from-label">Nivel:</label>
+      <select name="nivel-vue" id="nivel-vue" class="form-control">
+        <option value="">--- Seleccione un nivel ---</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
     </div>
-
-    <display-control :presupuestos="controlActual" />
+    <div class="mt-4 shadow border" v-if="controlActual">
+      <display-control :presupuestos="controlActual" />
+    </div>
   </div>
 </template>
 
 <script>
 import { fetchPresupuesto } from '@/services/control-actual-service';
 import { fetchObras } from '@/services/obra-service';
-import displayControl from '../components/displayControl.vue';
+import displayControl from '@/components/displayControl.vue';
+import { filterData } from '@/helpers/filter';
 
 export default {
   name: 'ControlActual',
@@ -51,7 +64,6 @@ export default {
   },
   methods: {
     selectedObra(event) {
-      console.log(event.target.value);
       this.obraSelected = document.getElementById('obra-vue').value;
     },
 
@@ -61,10 +73,13 @@ export default {
         alert('Seleccione una obra');
       }
 
+      const nivel = document.getElementById('nivel-vue').value;
       const presupuestoResponse = await fetchPresupuesto(this.obraSelected);
 
-      this.controlActual = presupuestoResponse.data['hydra:member'];
-      console.log(this.controlActual);
+      this.controlActual = filterData(
+        presupuestoResponse.data['hydra:member'],
+        nivel
+      );
     },
   },
   computed: {

@@ -48,7 +48,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         'groups' => [
             'presupuesto:write'
         ]
-        ]
+    ]
 )]
 #[ApiFilter(
     SearchFilter::class,
@@ -139,6 +139,22 @@ class Presupuesto
         'presupuesto:write'
     ])]
     private $presactu;
+
+    private $nivel;
+
+
+    public function setNivel($nivel)
+    {
+        $this->nivel = $nivel;
+    }
+
+    #[Groups([
+        'presupuesto:read'
+    ])] 
+    public function getNivel()
+    {
+        return $this->partida->getNivel();
+    }
 
     public function getId(): ?int
     {

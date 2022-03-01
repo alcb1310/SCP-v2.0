@@ -46,14 +46,16 @@ class Partida
     #[ORM\Column(type: 'string', length: 50, unique:true)]
     #[Groups([
         'presupuesto:read',
-        'proveedor:read'
+        'proveedor:read',
+        'control:read'
     ])]
     private $codigo;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
     #[Groups([
         'presupuesto:read',
-        'proveedor:read'
+        'proveedor:read',
+        'control:read'
     ])]
     private $nombre;
 

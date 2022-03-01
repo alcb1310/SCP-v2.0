@@ -9,6 +9,6 @@
 import './styles/app.scss';
 
 // start the Stimulus application
-import './bootstrap';
+import '@/bootstrap';
 
 console.log('Welcome to Sistema de Control Presupuestario');

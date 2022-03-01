@@ -23,6 +23,8 @@ Encore
    */
   .addEntry('app', './assets/app.js')
   .addEntry('control-actual', './assets/control-actual.js')
+  .addEntry('control-historico', './assets/control-historico.js')
+  .addEntry('proveedor', './assets/proveedor.js')
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge('./assets/controllers.json')

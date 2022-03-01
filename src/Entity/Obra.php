@@ -55,12 +55,16 @@ class Obra
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        'obra:read',
+        'control:read'
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
     #[Groups([
         'presupuesto:read',
-        'obra:read'
+        'obra:read',
     ])]
     private $nombre;
 
