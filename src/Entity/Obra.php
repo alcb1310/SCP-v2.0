@@ -65,6 +65,7 @@ class Obra
     #[Groups([
         'presupuesto:read',
         'obra:read',
+        'proveedor:read'
     ])]
     private $nombre;
 

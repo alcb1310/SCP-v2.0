@@ -32,6 +32,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     columns: ['nombre']
 )]
 #[ApiResource(
+    order:[
+        'obra.nombre'=> 'ASC',
+        'fecha' => 'DESC'
+    ],
     collectionOperations:[
         'get'
     ],
