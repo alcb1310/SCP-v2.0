@@ -1,6 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+     <div id="app"></div>
      <div class="row row-cols1 m-4 p-4">
           {{ form_start(form) }}
                {{ form_widget(form) }}
@@ -56,4 +57,10 @@
                }
           });
      </script>
+     {{ encore_entry_script_tags('gasto-mes') }}
+{% endblock %}
+
+{% block stylesheets %}
+     {{ parent() }}
+     {{ encore_entry_link_tags('gasto-mes') }}
 {% endblock %}

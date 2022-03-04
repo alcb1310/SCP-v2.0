@@ -2,7 +2,7 @@
   <div>
     <div class="form-group border shadow p-4">
       <button
-        class="btn btn-success float-end mb-2"
+        class="btn btn-primary float-end mb-2"
         @click="buscaDatos($event)"
       >
         Buscar
