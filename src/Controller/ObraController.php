@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Form\GastoMensualFormType;
 use App\Form\ObraFormType;
+use App\Repository\FacturaRepository;
 use App\Repository\ObraRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -75,10 +77,23 @@ class ObraController extends AbstractController
             $facturas = $obraRepository->getSumFacturaTotalByYearAndMonth($obra);
         }
 
+        $obras = $obraRepository->getAllActive();
+
         dump($facturas);
         return $this->render('obra/gastadomensual.html.twig', [
             'valores' => $facturas,
             'form' => $form->createView(),
+            'obras' => $obras,
         ]);
+    }
+
+    #[Route('/obra/gasto/{obraid}', methods:'GET')]
+    public function gastoMes($obraid, ObraRepository $obraRepository, FacturaRepository $facturaRepository) : JsonResponse
+    {
+        $obra = $obraRepository->findOneBy(['id' => $obraid]);
+        $data = $obraRepository->getSumFacturaTotalByYearAndMonth($obra);
+        // $datajs = json_encode($data);
+        // dd($datajs);
+        return new JsonResponse($data);
     }
 }
