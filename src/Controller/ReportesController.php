@@ -17,7 +17,7 @@ class ReportesController extends AbstractController{
      public function gastadoActual( ObraRepository $obraRepository, PartidaRepository $partidaRepository, Request $request, ActualRepository $actualRepository, PresupuestoRepository $presupuestoRepository, ChartBuilderInterface $chartBuilder){
           $obra = null;
           $partida = null;
-          $chart = null;
+          $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
           $obraid = $request->query->get('obra');
           $partidaid = $request->query->get('partida');
           if ($obraid){
@@ -34,7 +34,6 @@ class ReportesController extends AbstractController{
 
                $xValuesPresupuesto = array();
                $yValuesPresupuesto = array();
-               $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
                foreach ($presupuestos as $presupuesto){
                     $xValuesPresupuesto[] = $presupuesto->getPartida()->getCodigo();
                     $cod = $presupuesto->getPartida()->getCodigo();
