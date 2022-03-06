@@ -39,6 +39,8 @@ class ObraRepository extends ServiceEntityRepository
                 ->setParameter('obra', $obra->getId())
                 ->addGroupBy('year')
                 ->addGroupBy('month')
+                ->addOrderBy('year')
+                ->addOrderBy('month')
                 ->getQuery()
                 ->getResult()
                 ;

@@ -1,0 +1,16 @@
+@import '~bootstrap';
+@import './params/variables.scss';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+body {
+  font-family: rustica, sans-serif !important;
+  font-weight: 500;
+  font-style: normal;
+  color: $azul !important;
+  background: $azulsuave;
+}
+
+thead tr {
+  background: $azul;
+  color: $light;
+}

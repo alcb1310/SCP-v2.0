@@ -1,10 +1,29 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-     <h3>Proveedor: </h3>
-     {{ form_start(form) }}
-          {{ form_widget(form) }}
-          <a href="{{ path('proveedor_show') }}" class="btn btn-primary float-end ms-3">Regresar</a>
-          <button type="submit" class="btn btn-primary float-end ">Grabar</button>
-     {{ form_end(form) }}
+     <div class="border shadow p-4">
+          <h3>Proveedor: </h3>
+          {{ form_start(form) }}
+               {{ form_widget(form) }}
+               <a href="{{ path('proveedor_show') }}" class="btn btn-primary float-end ms-3">Regresar</a>
+               <button type="submit" class="btn btn-primary float-end ">Grabar</button>
+          {{ form_end(form) }}
+     </div>
+
+     <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+     {{ parent() }}
+     <script>
+          {% if proveedorId is defined %}
+               window.proveedorId = '{{ proveedorId }}';
+          {% endif %}
+     </script>
+     {{ encore_entry_script_tags('proveedor') }}
+{% endblock %}
+
+{% block stylesheets %}
+     {{ parent() }}
+     {{ encore_entry_link_tags('proveedor') }}
 {% endblock %}

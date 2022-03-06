@@ -19,6 +19,19 @@ class ActualRepository extends ServiceEntityRepository
         parent::__construct($registry, Actual::class);
     }
 
+    public function getAllOrdered()
+    {
+        return $this->createQueryBuilder('a')
+                    ->join('a.obra', 'o')
+                    ->join('a.partida', 'p')
+                    ->addSelect('a')
+                    ->addSelect('p')
+                    ->addOrderBy('o.nombre')
+                    ->addOrderBy('p.codigo')
+                    ->getQuery()
+                ;
+    }
+
     // /**
     //  * @return Actual[] Returns an array of Actual objects
     //  */

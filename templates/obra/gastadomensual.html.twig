@@ -2,58 +2,28 @@
 
 {% block body %}
      <div class="row row-cols1 m-4 p-4">
-          {{ form_start(form) }}
-               {{ form_widget(form) }}
-               <a href="{{ path('obra_show') }}" class="btn btn-primary float-end ms-3">Regresar</a>
-               <button type="submit" class="btn btn-primary float-end ">Buscar</button>
-          {{ form_end(form) }}
+          <form action="{{ path('reporte_gasto_mensual') }}" class="form-group">
+               <select name="obra" id="js-obra" class="form-select">
+                    <option value="">--- Seleccione una obra ---</option>
+                    {% for obra in obras %}
+                         <option value="{{ obra.id }}">{{ obra.nombre }}</option>
+                    {% endfor %}
+               </select>
+               <div class="mt-3">
+                    <a href="{{ path('obra_show') }}" class="btn btn-primary float-end ms-3">Regresar</a>
+                    <button type="submit" class="btn btn-primary float-end " onclick="buscaDatos();">Buscar</button>
+               </div>
+          </form>
      </div>
-     <div class="row row-cols-1 m-4 p-4 border border-2 border-dark">
-          <div class="col">
-               <canvas id="myChart" style="width:100%;"></canvas>
-          </div>
-     </div>
+
+     {# {{ include('obra/_grafico_gastado_mensual.html.twig') }} #}
 {% endblock %}
 
 {% block javascripts %}
      {{ parent() }}
 
-     {# import for using charts  #}
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-     <script>
-          const xValuesGastado =[];
-          const yDataGastado=[];
+{% endblock %}
 
-          {% for valor in valores %}
-               xValuesGastado.push({{valor.year}} + "/" + {{valor.month}})
-               yDataGastado.push({{valor.total}})
-          {% endfor %}
-
-          new Chart("myChart", {
-               type: "line",
-               data: {
-                    label: "Gastado",
-                    labels: xValuesGastado,
-                    datasets: [{
-                         label: "Gasto mensual",
-                         borderColor: Math.floor(Math.random()*16777215).toString(16),
-                         fill: false,
-                         data: yDataGastado
-                    }]
-               },
-               options: {
-                    title: {
-                         display: true,
-                         text: "Gasto Mensual"
-                    },
-                    legend: {
-                         display: true,
-                         position: 'right',
-                         labels:{
-                              fontcolor: "#006699"
-                         }
-                    }
-               }
-          });
-     </script>
+{% block stylesheets %}
+     {{ parent() }}
 {% endblock %}
