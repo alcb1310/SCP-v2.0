@@ -19,6 +19,18 @@ class ActualRepository extends ServiceEntityRepository
         parent::__construct($registry, Actual::class);
     }
 
+    public function getReporteActualGastado($obra, $partidas)
+    {
+        // dd($obra, $partidas);
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.partida in (:partidas)')
+            ->andWhere('a.obra = :obra')
+            ->setParameter('partidas', $partidas)
+            ->setParameter('obra', $obra)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getAllOrdered()
     {
         return $this->createQueryBuilder('a')
