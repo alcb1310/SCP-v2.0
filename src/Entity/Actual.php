@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ActualRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -9,13 +10,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ActualRepository::class)]
 #[UniqueEntity(
-    fields: ['obra', 'partida', 'fecha'],
-    errorPath: 'fecha',
-    message: 'La partida en esa obra y fecha ya existe'
+    fields: ['obra', 'partida'],
+    errorPath: 'partida',
+    message: 'La partida en esa obra ya existe'
 )]
 #[UniqueConstraint(
-    columns: ['obra_id', 'partida_id', 'fecha']
+    columns: ['obra_id', 'partida_id']
 )]
+#[ApiResource()]
 class Actual
 {
     #[ORM\Id]
@@ -31,10 +33,7 @@ class Actual
     #[ORM\JoinColumn(nullable: false)]
     private $partida;
 
-    #[ORM\Column(type: 'date')]
-    private $fecha;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $casas;
 
     #[ORM\Column(type: 'float', nullable: true)]
@@ -69,24 +68,12 @@ class Actual
         return $this;
     }
 
-    public function getFecha(): ?\DateTimeInterface
-    {
-        return $this->fecha;
-    }
-
-    public function setFecha(\DateTimeInterface $fecha): self
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    public function getCasas(): ?int
+    public function getCasas(): ?float
     {
         return $this->casas;
     }
 
-    public function setCasas(int $casas): self
+    public function setCasas(float $casas): self
     {
         $this->casas = $casas;
 

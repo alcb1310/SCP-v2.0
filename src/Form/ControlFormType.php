@@ -23,6 +23,7 @@ class ControlFormType extends AbstractType
         $this->obra = $obraRepository;
         $this->partida = $partida;
     }
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $tests = $this->partida->getAllNiveles();
@@ -37,7 +38,7 @@ class ControlFormType extends AbstractType
             ->add('fecha', DateType::class, [
                 'placeholder' => 'Ingrese la fecha',
                 'widget' => 'single_text'
-            ])
+            ]) 
             ->add('obra', EntityType::class,[
                 'class' => Obra::class,
                 'placeholder' => '--- Seleccione una obra ---',

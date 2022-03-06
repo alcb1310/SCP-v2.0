@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PresupuestoRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PresupuestoRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PresupuestoRepository::class)]
@@ -17,6 +21,41 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueConstraint(
     columns: ['obra_id', 'partida_id']
 )]
+#[ApiResource(
+    attributes:[
+        'pagination_enabled' => false,
+    ],
+    collectionOperations:[
+        'get' =>[
+            'normalization_context' =>[
+                'groups' =>['presupuesto:read']
+            ]
+        ],
+    ], 
+    itemOperations: [
+        'get' =>[
+            'normalization_context' =>[
+                'groups' =>['presupuesto:read']
+            ]
+        ],
+    ],
+    normalizationContext:[
+        'groups' => [
+            'presupuesto:read'
+        ]
+    ],
+    denormalizationContext:[
+        'groups' => [
+            'presupuesto:write'
+        ]
+    ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties:[
+        'obra' => 'exact'
+    ]
+)]
 class Presupuesto
 {
     #[ORM\Id]
@@ -26,38 +65,96 @@ class Presupuesto
     
     #[ORM\ManyToOne(targetEntity: Obra::class, inversedBy: 'presupuestos')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'presupuesto:read'
+    ])]
     private $obra;
 
     #[ORM\ManyToOne(targetEntity: Partida::class, inversedBy: 'presupuestos')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'presupuesto:read'
+    ])]
     private $partida;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $cantini;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $costoini;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $totalini;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $rendidocant;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $rendidotot;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $porgascan;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $porgascost;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $porgastot;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'presupuesto:read',
+        'presupuesto:write'
+    ])]
     private $presactu;
+
+    private $nivel;
+
+
+    public function setNivel($nivel)
+    {
+        $this->nivel = $nivel;
+    }
+
+    #[Groups([
+        'presupuesto:read'
+    ])] 
+    public function getNivel()
+    {
+        return $this->partida->getNivel();
+    }
 
     public function getId(): ?int
     {

@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PartidaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Schema\UniqueConstraint;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PartidaRepository::class)]
 #[UniqueEntity(
@@ -26,6 +28,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueConstraint(
     columns: ['nombre']
 )]
+#[ApiResource(
+    collectionOperations:[
+        'get'
+    ],
+    itemOperations:[
+        'get'
+    ]
+)]
 class Partida
 {
     #[ORM\Id]
@@ -34,9 +44,19 @@ class Partida
     private $id;
 
     #[ORM\Column(type: 'string', length: 50, unique:true)]
+    #[Groups([
+        'presupuesto:read',
+        'proveedor:read',
+        'control:read'
+    ])]
     private $codigo;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
+    #[Groups([
+        'presupuesto:read',
+        'proveedor:read',
+        'control:read'
+    ])]
     private $nombre;
 
     #[ORM\Column(type: 'boolean')]
@@ -65,6 +85,9 @@ class Partida
     #[ORM\OneToMany(mappedBy: 'partida', targetEntity: Flujo::class)]
     private $flujos;
 
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: ActualHistorico::class)]
+    private $actualHistoricos;
+
     public function setTotal($total)
     {
         $this->total = $total;
@@ -82,6 +105,7 @@ class Partida
         $this->controls = new ArrayCollection();
         $this->actuals = new ArrayCollection();
         $this->flujos = new ArrayCollection();
+        $this->actualHistoricos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,6 +328,36 @@ class Partida
             // set the owning side to null (unless already changed)
             if ($flujo->getPartida() === $this) {
                 $flujo->setPartida(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ActualHistorico>
+     */
+    public function getActualHistoricos(): Collection
+    {
+        return $this->actualHistoricos;
+    }
+
+    public function addActualHistorico(ActualHistorico $actualHistorico): self
+    {
+        if (!$this->actualHistoricos->contains($actualHistorico)) {
+            $this->actualHistoricos[] = $actualHistorico;
+            $actualHistorico->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActualHistorico(ActualHistorico $actualHistorico): self
+    {
+        if ($this->actualHistoricos->removeElement($actualHistorico)) {
+            // set the owning side to null (unless already changed)
+            if ($actualHistorico->getPartida() === $this) {
+                $actualHistorico->setPartida(null);
             }
         }
 

@@ -2,9 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ControlRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ControlRepository;
+use App\ApiPlatform\SearchByYearAndMonth;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ControlRepository::class)]
@@ -16,6 +22,48 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueConstraint(
     columns: ['obra_id', 'partida_id', 'fecha']
 )]
+#[ApiResource(
+    attributes:[
+        'pagination_enabled' => false,
+    ],
+    collectionOperations:[
+        'get' =>[
+            'normalization_context' =>[
+                'groups' =>['control:read']
+            ]
+        ],
+    ], 
+    itemOperations: [
+        'get' =>[
+            'normalization_context' =>[
+                'groups' =>['control:read']
+            ]
+        ],
+    ],
+    normalizationContext:[
+        'groups' => [
+            'control:read'
+        ]
+    ],
+    denormalizationContext:[
+        'groups' => [
+            'control:write'
+        ]
+    ]
+)]
+#[ApiFilter(
+    DateFilter::class,
+    properties:[
+        'fecha'
+    ]
+)]
+#[ApiFilter(
+    SearchByYearAndMonth::class,
+    properties:[
+        'fecha',
+        'nivel'
+    ]
+)]
 class Control
 {
     #[ORM\Id]
@@ -25,52 +73,92 @@ class Control
 
     #[ORM\ManyToOne(targetEntity: Obra::class, inversedBy: 'controls')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'control:read'
+    ])]
     private $obra;
 
     #[ORM\ManyToOne(targetEntity: Partida::class, inversedBy: 'controls')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'control:read'
+    ])]
     private $partida;
 
     #[ORM\Column(type: 'date')]
+    #[Groups([
+        'control:read'
+    ])]
     private $fecha;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $cantini;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $costoini;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $totalini;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $rendidocant;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $rendidotot;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $porgascan;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $porgascost;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $porgastot;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups([
+        'control:read'
+    ])]
     private $presactu;
 
     private $nivel;
+
 
     public function setNivel($nivel)
     {
         $this->nivel = $nivel;
     }
 
+    #[Groups([
+        'control:read'
+    ])] 
     public function getNivel()
     {
-        return $this->nivel;
+        return $this->partida->getNivel();
     }
 
     public function getId(): ?int
