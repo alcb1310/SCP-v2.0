@@ -2,17 +2,31 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\FacturaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FacturaRepository::class)]
 #[UniqueEntity(
     fields:['obra', 'proveedor', 'numero'],
     errorPath: 'numero',
     message: 'Factura ya existe',
+)]
+#[UniqueConstraint(
+    columns: ['obra_id', 'proveedor_id', 'numero']
+)]
+#[ApiResource(
+    collectionOperations:[
+        'get'
+    ],
+    itemOperations:[
+        'get'
+    ]
 )]
 class Factura
 {
@@ -23,6 +37,9 @@ class Factura
 
     #[ORM\ManyToOne(targetEntity: Obra::class, inversedBy: 'facturas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $obra;
 
     #[ORM\ManyToOne(targetEntity: Proveedor::class, inversedBy: 'facturas')]
@@ -30,15 +47,27 @@ class Factura
     private $proveedor;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $numero;
 
     #[ORM\Column(type: 'date')]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $fecha;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $total;
 
     #[ORM\OneToMany(mappedBy: 'factura', targetEntity: DetalleFactura::class)]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $detalleFacturas;
 
     public function __construct()

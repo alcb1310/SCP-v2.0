@@ -3,10 +3,11 @@
 
 {% block body %}
     <a href="{{path('proveedor_add')}}" class='btn btn-primary float-end'>Crear</a>
+    {{ pagerfanta(pager) }}
     <table class='table caption-top table-hover table-striped'>
         <caption>Proveedores: </caption>
         <thead>
-            <tr style='background: rgb(0, 102, 153); color:white;'>
+            <tr>
                 <td align='center'>RUC</td>
                 <td algin='center'>Nombre</td>
                 <td align='center'>Contacto</td>
@@ -16,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for proveedor in proveedores %}
+            {% for proveedor in pager %}
                 <tr>
                     <td>{{proveedor.ruc}}</td>
                     <td>{{proveedor.nombre}}</td>
@@ -28,4 +29,5 @@
             {% endfor %}
         </tbody>
     </table>
+    {{ pagerfanta(pager) }}
 {% endblock %}

@@ -2,15 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\DetalleFacturaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\DetalleFacturaRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DetalleFacturaRepository::class)]
 #[UniqueEntity(
     fields:['factura', 'partida'],
     errorPath:'partida',
     message:'Ya existe esa partida para la factura'
+)]
+#[UniqueConstraint(
+    columns:['factura_id', 'partida_id']
+)]
+#[ApiResource(
+    collectionOperations:[
+        'get'
+    ],
+    itemOperations:[
+        'get'
+    ]
 )]
 class DetalleFactura
 {
@@ -25,20 +39,54 @@ class DetalleFactura
 
     #[ORM\ManyToOne(targetEntity: Partida::class, inversedBy: 'detalleFacturas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $partida;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $cantidad;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $unitario;
 
     #[ORM\Column(type: 'float')]
+    #[Groups([
+        'proveedor:read'
+    ])]
     private $total;
 
     private $obranombre;
     private $proveedornombre;
     private $facturanum;
+    private $fecha;
+    private $nivel;
+
+    public function setNivel($nivel)
+    {
+        $this->nivel = $nivel;
+    }
+
+    public function getNivel()
+    {
+        return $this->nivel;
+    }
+
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    }
+
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
 
     public function setFacturanum($var)
     {

@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+     <div class="row row-cols1 m-4 p-4">
+          <form action="{{ path('reporte_gasto_mensual') }}" class="form-group">
+               <select name="obra" id="js-obra" class="form-select">
+                    <option value="">--- Seleccione una obra ---</option>
+                    {% for obra in obras %}
+                         <option value="{{ obra.id }}">{{ obra.nombre }}</option>
+                    {% endfor %}
+               </select>
+               <div class="mt-3">
+                    <a href="{{ path('obra_show') }}" class="btn btn-primary float-end ms-3">Regresar</a>
+                    <button type="submit" class="btn btn-primary float-end " onclick="buscaDatos();">Buscar</button>
+               </div>
+          </form>
+     </div>
+
+     {# {{ include('obra/_grafico_gastado_mensual.html.twig') }} #}
+{% endblock %}
+
+{% block javascripts %}
+     {{ parent() }}
+
+{% endblock %}
+
+{% block stylesheets %}
+     {{ parent() }}
+{% endblock %}

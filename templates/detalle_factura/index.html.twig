@@ -9,7 +9,7 @@
     <table class='table table-striped table-hover caption-top'>
         <caption>Detalle:</caption>
         <thead>
-            <tr style='background: rgb(0, 102, 153); color:white;'>
+            <tr>
                 <td>Partida</td>
                 <td align='center'>Cantidad</td>
                 <td align='center'>Unitario</td>
@@ -35,4 +35,34 @@
         </tbody>
     </table>
     <img src="img/minus-square-solid.svg" alt="" class="minus">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        const cant= document.getElementById("detalle_factura_form_cantidad");
+        const uni = document.getElementById("detalle_factura_form_unitario");
+        let cantidad= 0;
+        let unitario=0;
+        cant.addEventListener("focusout", function(){
+            if (isNaN(cant.value)){
+                cantidad = 0;
+                cant.value=0;
+            } else {
+                cantidad=cant.value;
+            }
+            document.getElementById("total").value=cantidad*unitario;
+        });
+        uni.addEventListener("focusout", function(){
+            if (isNaN(uni.value)){
+                uni.value=0;
+                unitario=0;
+            } else {
+                unitario=uni.value;
+            }
+            document.getElementById("detalle_factura_form_total").value=cantidad*unitario;
+        });
+    </script>
+    
 {% endblock %}

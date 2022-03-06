@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PartidaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Schema\UniqueConstraint;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PartidaRepository::class)]
 #[UniqueEntity(
@@ -19,6 +22,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     errorPath:'nombre',
     message: 'Nombre de la partida ya existe'
 )]
+#[UniqueConstraint(
+    columns: ['codigo']
+)]
+#[UniqueConstraint(
+    columns: ['nombre']
+)]
+#[ApiResource(
+    collectionOperations:[
+        'get'
+    ],
+    itemOperations:[
+        'get'
+    ]
+)]
 class Partida
 {
     #[ORM\Id]
@@ -27,9 +44,19 @@ class Partida
     private $id;
 
     #[ORM\Column(type: 'string', length: 50, unique:true)]
+    #[Groups([
+        'presupuesto:read',
+        'proveedor:read',
+        'control:read'
+    ])]
     private $codigo;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
+    #[Groups([
+        'presupuesto:read',
+        'proveedor:read',
+        'control:read'
+    ])]
     private $nombre;
 
     #[ORM\Column(type: 'boolean')]
@@ -47,10 +74,38 @@ class Partida
     #[ORM\OneToMany(mappedBy: 'partida', targetEntity: DetalleFactura::class)]
     private $detalleFacturas;
 
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: Control::class)]
+    private $controls;
+
+    private $total;
+
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: Actual::class)]
+    private $actuals;
+
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: Flujo::class)]
+    private $flujos;
+
+    #[ORM\OneToMany(mappedBy: 'partida', targetEntity: ActualHistorico::class)]
+    private $actualHistoricos;
+
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
     public function __construct()
     {
         $this->presupuestos = new ArrayCollection();
         $this->detalleFacturas = new ArrayCollection();
+        $this->controls = new ArrayCollection();
+        $this->actuals = new ArrayCollection();
+        $this->flujos = new ArrayCollection();
+        $this->actualHistoricos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +238,126 @@ class Partida
             // set the owning side to null (unless already changed)
             if ($detalleFactura->getPartida() === $this) {
                 $detalleFactura->setPartida(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Control[]
+     */
+    public function getControls(): Collection
+    {
+        return $this->controls;
+    }
+
+    public function addControl(Control $control): self
+    {
+        if (!$this->controls->contains($control)) {
+            $this->controls[] = $control;
+            $control->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeControl(Control $control): self
+    {
+        if ($this->controls->removeElement($control)) {
+            // set the owning side to null (unless already changed)
+            if ($control->getPartida() === $this) {
+                $control->setPartida(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Actual[]
+     */
+    public function getActuals(): Collection
+    {
+        return $this->actuals;
+    }
+
+    public function addActual(Actual $actual): self
+    {
+        if (!$this->actuals->contains($actual)) {
+            $this->actuals[] = $actual;
+            $actual->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActual(Actual $actual): self
+    {
+        if ($this->actuals->removeElement($actual)) {
+            // set the owning side to null (unless already changed)
+            if ($actual->getPartida() === $this) {
+                $actual->setPartida(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Flujo[]
+     */
+    public function getFlujos(): Collection
+    {
+        return $this->flujos;
+    }
+
+    public function addFlujo(Flujo $flujo): self
+    {
+        if (!$this->flujos->contains($flujo)) {
+            $this->flujos[] = $flujo;
+            $flujo->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFlujo(Flujo $flujo): self
+    {
+        if ($this->flujos->removeElement($flujo)) {
+            // set the owning side to null (unless already changed)
+            if ($flujo->getPartida() === $this) {
+                $flujo->setPartida(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ActualHistorico>
+     */
+    public function getActualHistoricos(): Collection
+    {
+        return $this->actualHistoricos;
+    }
+
+    public function addActualHistorico(ActualHistorico $actualHistorico): self
+    {
+        if (!$this->actualHistoricos->contains($actualHistorico)) {
+            $this->actualHistoricos[] = $actualHistorico;
+            $actualHistorico->setPartida($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActualHistorico(ActualHistorico $actualHistorico): self
+    {
+        if ($this->actualHistoricos->removeElement($actualHistorico)) {
+            // set the owning side to null (unless already changed)
+            if ($actualHistorico->getPartida() === $this) {
+                $actualHistorico->setPartida(null);
             }
         }
 

@@ -23,6 +23,7 @@ class DetalleFacturaFormType extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $this->obra = $options['data']->getFactura()->getObra()->getId();
         $builder
             ->add('obranombre', null, [
                 'disabled' =>true,
@@ -39,11 +40,14 @@ class DetalleFacturaFormType extends AbstractType
             ->add('partida', EntityType::class, [
                 'class' => Partida::class,
                 'placeholder' => '--- Seleccione una partida ---',
-                'choices' => $this->partida->findAllChilds(),
+                'choices' => $this->partida->findAllChilds($this->obra),
             ])
             ->add('cantidad')
             ->add('unitario')
-            ->add('total')
+            ->add('total', null,[
+                'required' =>false,
+                'disabled' => true,
+            ])
         ;
     }
 

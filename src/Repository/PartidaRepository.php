@@ -27,8 +27,8 @@ class PartidaRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.codigo', 'ASC')
-            ->getQuery()
-            ->getResult()
+            // ->getQuery()
+            // ->getResult()
             ;
     }
 
@@ -45,12 +45,32 @@ class PartidaRepository extends ServiceEntityRepository
     /**
      * @return Partida[] Returns an array of Partida objects
      */
-    public function findAllChilds(){
+    public function findAllChilds($obra){
+        // $query = $this->createQueryBuilder('p')
+        //     ->andWhere('p.acumula=0')
+        //     ->andWhere('p.obra=:obra')
+        //     ->setParameter('f.obra', $obra)
+        //     ->join('pres.factura', 'f')
+        //     ->join('p.presupuestos', 'pres');
+
+        // dd($query->getQuery());
         return $this->createQueryBuilder('p')
             ->andWhere('p.acumula=0')
+            ->andWhere('pres.obra=:obra')
+            ->setParameter('obra', $obra)
             ->join('p.presupuestos', 'pres')
             ->getQuery()
             ->execute();
+    }
+
+    public function getAllNiveles()
+    {
+        return $this->createQueryBuilder('p')
+                    ->select('p.nivel')
+                    ->distinct(true)
+                    ->getQuery()
+                    ->execute()
+                ;
     }
     
 

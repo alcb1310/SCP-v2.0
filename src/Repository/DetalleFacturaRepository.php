@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DetalleFactura;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,27 @@ class DetalleFacturaRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, DetalleFactura::class);
+    }
+
+    public function getAllSumByPartidaAndMonth($obraCod, $partida, $fecha)
+    {
+        return $this->createQueryBuilder('d')
+                        ->andWhere('p.codigo like  :partida')
+                        ->andWhere('o.nombre=:obra')
+                        ->andWhere('year(f.fecha) = year(:fecha)')
+                        ->andWhere('month(f.fecha) = month(:fecha)')
+                        ->join('d.partida', 'p')
+                        ->join('d.factura', 'f')
+                        ->join('f.obra', 'o')
+                        ->setParameter('partida', $partida.'%')
+                        ->setParameter('obra', $obraCod)
+                        ->setParameter('fecha', $fecha)
+                        ->select('p.codigo, p.nombre, sum(d.total) total')
+                        ->addGroupBy('p.codigo')
+                        ->addGroupBy('p.nombre')
+                        ->getQuery()
+                        ->getResult()
+                    ;
     }
 
     // /**

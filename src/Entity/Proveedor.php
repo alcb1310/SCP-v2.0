@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProveedorRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProveedorRepository::class)]
@@ -20,6 +25,41 @@ use Symfony\Component\Validator\Constraints as Assert;
     errorPath:'nombre',
     message:'Nombre ya exste'
 )]
+#[UniqueConstraint(
+    columns: ['ruc']
+)]
+#[UniqueConstraint(
+    columns: ['nombre']
+)]
+#[ApiResource(
+    order:[
+        'obra.nombre'=> 'ASC',
+        'fecha' => 'DESC'
+    ],
+    collectionOperations:[
+        'get'
+    ],
+    itemOperations:[
+        'get'
+    ],
+    normalizationContext:[
+        'groups' => [
+            'proveedor:read'
+        ]
+        ],
+        denormalizationContext: [
+            'groups' => [
+                'proveedor:write'
+            ]
+        ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties:[
+        'nombre' => 'partial',
+        'ruc' => 'partial'
+    ]
+)]
 class Proveedor
 {
     #[ORM\Id]
@@ -28,21 +68,44 @@ class Proveedor
     private $id;
 
     #[ORM\Column(type: 'string', length: 20, unique:true)]
+    #[Groups([
+        'proveedor:read',
+        'proveedor:write'
+    ])]
     private $ruc;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups([
+        'proveedor:read',
+        'proveedor:write'
+    ])]
     private $nombre;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups([
+        'proveedor:read',
+        'proveedor:write'
+    ])]
     private $contacto;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups([
+        'proveedor:read',
+        'proveedor:write'
+    ])]
     private $telefono;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups([
+        'proveedor:read',
+        'proveedor:write'
+    ])]
     private $email;
 
     #[ORM\OneToMany(mappedBy: 'proveedor', targetEntity: Factura::class)]
+    #[Groups([
+        'proveedor:read',
+    ])]
     private $facturas;
 
     public function __construct()
