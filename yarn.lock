@@ -1451,15 +1451,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chart.js@npm:^2.7.55":
-  version: 2.9.35
-  resolution: "@types/chart.js@npm:2.9.35"
-  dependencies:
-    moment: ^2.10.2
-  checksum: 5b1571ac7190734109b055c897d9a33bbd6e0303b1640d290a68980da93002f302bc652d9d6f71719f2d3c05b22eee10f74516a1de8458ce82e8fe4bac339f74
-  languageName: node
-  linkType: hard
-
 "@types/connect-history-api-fallback@npm:^1.3.5":
   version: 1.3.5
   resolution: "@types/connect-history-api-fallback@npm:1.3.5"
@@ -4828,7 +4819,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.10.2, moment@npm:^2.29.1":
+"moment@npm:^2.29.1":
   version: 2.29.1
   resolution: "moment@npm:2.29.1"
   checksum: 1e14d5f422a2687996be11dd2d50c8de3bd577c4a4ca79ba5d02c397242a933e5b941655de6c8cb90ac18f01cc4127e55b4a12ae3c527a6c0a274e455979345e
@@ -6122,7 +6113,6 @@ __metadata:
     sass: ^1.49.8
     sass-loader: ^12.0.0
     vue: ^2.5
-    vue-chartjs: ^3.5.1
     vue-loader: ^15.9.5
     vue-template-compiler: ^2.6.14
     webpack: ^5.69.1
@@ -6964,17 +6954,6 @@ __metadata:
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
   checksum: ae0123222c6df65b437669d63dfa8c36cee20a504101b2fcd97b8bf76f91259c17f9f2b4d70a1e3c6bbcee7f51b28392833adb6b2770b23b01abec84e369660b
-  languageName: node
-  linkType: hard
-
-"vue-chartjs@npm:^3.5.1":
-  version: 3.5.1
-  resolution: "vue-chartjs@npm:3.5.1"
-  dependencies:
-    "@types/chart.js": ^2.7.55
-  peerDependencies:
-    chart.js: ">= 2.5"
-  checksum: 02c8690fce12bb66d81329e05c71487a72de7e7309344016afa1de77e6ae3b4260500d42a840696ab05236f68c8ec91412a99b740698e8922d3c91ca030518ed
   languageName: node
   linkType: hard
 
