@@ -25,7 +25,6 @@ Encore
   .addEntry('control-actual', './assets/control-actual.js')
   .addEntry('control-historico', './assets/control-historico.js')
   .addEntry('proveedor', './assets/proveedor.js')
-  .addEntry('gasto-mes', './assets/gasto-mes.js')
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge('./assets/controllers.json')
