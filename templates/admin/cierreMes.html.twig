@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+     <div class="row row-cols1 m-4 p-4">
+          <form  
+                    method="post"
+                    {{stimulus_controller('cierre-mes', {
+                         url: path('admin_ejecuta_cierre')
+                    } ) }}
+                    data-action="cierre-mes#onSubmit"
+          >
+               <div class="form-group">
+                    <label for="obra" class="form-label">Obra</label>
+                    <select name="obra" class="form-select" id="js-obra-select">
+                         <option value="">--- Seleccione una obra ---</option>
+                         {% for obra in obras %}
+                              <option value="{{obra.id}}">{{obra.nombre}}</option>
+                         {% endfor %}
+                    </select>
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" class="form-control" id="js-fecha">
+               </div>
+               <div class="mt-3">
+                    <a href="{{ path('app_homepage') }}" class="btn btn-primary float-end ms-3">
+                         Regresar
+                    </a>
+                    <button type="submit" class="btn btn-primary float-end">Procesar</button>
+               </div>
+          </form>
+     </div>
+{% endblock %}
