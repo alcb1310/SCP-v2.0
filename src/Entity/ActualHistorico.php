@@ -86,7 +86,7 @@ class ActualHistorico
         return $this->casas;
     }
 
-    public function setCasas(float $casas): self
+    public function setCasas( $casas): self
     {
         $this->casas = $casas;
 

@@ -20,6 +20,18 @@ class ControlRepository extends ServiceEntityRepository
         parent::__construct($registry, Control::class);
     }
 
+    public function getByObraAndFecha ($obra, $fecha)
+    {
+        return $this->createQueryBuilder('c')
+                    ->andWhere('c.obra = :obra')
+                    ->andWhere('year(c.fecha) = year(:fecha)')
+                    ->andWhere('month(c.fecha) = month(:fecha)')
+                    ->setParameter('fecha', $fecha)
+                    ->setParameter('obra', $obra)
+                    ->getQuery()
+                    ->getResult();
+    }
+
     public function getByNivel($obra, $nivel, $fecha)
     {
         return $this->createQueryBuilder('c')
