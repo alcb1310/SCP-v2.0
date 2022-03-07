@@ -116,6 +116,7 @@ class PresupuestoRepository extends ServiceEntityRepository
             $this->em->rollback();
             return false;
         }
+        
 
         return true;
     }
@@ -215,6 +216,19 @@ class PresupuestoRepository extends ServiceEntityRepository
             return false;
         }
         return true;
+    }
+
+
+    public function getReporteActualGastado($obra, $partidas)
+    {
+        // dd($obra, $partidas);
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.partida in (:partidas)')
+            ->andWhere('a.obra = :obra')
+            ->setParameter('partidas', $partidas)
+            ->setParameter('obra', $obra)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

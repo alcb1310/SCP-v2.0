@@ -1,0 +1,50 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+     <div class="row row-cols1 m-4 p-4">
+          <form class="form-group">
+               <label for="obra" class="form-label">Obra</label>
+               <select name="obra" class="form-select" id="js-obra-select">
+                    <option value="">--- Seleccione una obra ---</option>
+                    {% for obra in obras %}
+                         <option value="{{obra.id}}">{{obra.nombre}}</option>
+                    {% endfor %}
+               </select>
+               <label for="partida">Partida</label>
+               <select name="partida" class="form-select" id="js-partida-select">
+                    <option value="">--- Seleccione una partida ---</option>
+                    {% for partida in partidas %}
+                         <option value="{{partida.id}}">[{{partida.codigo}}] {{partida.nombre}}</option>
+                    {% endfor %}
+               </select>
+               <div class="mt-3">
+                    <a href="{{ path('app_homepage') }}" class="btn btn-primary float-end ms-3">
+                         Regresar
+                    </a>
+                    <button type="submit" class="btn btn-primary float-end">Buscar</button>
+               </div>
+          </form>
+          {% if chart is defined %}
+               <div 
+                    class="row row-cols-1 m-4 p-4 border border-2 border-dark" 
+                    id="js-chart-display"
+               >
+                    <div class="col">
+                         {{ render_chart(chart) }}
+                    </div>
+               </div>
+          {% endif %}
+     </div>
+{% endblock %}
+
+{% block javascripts %}
+     {{ parent() }}
+     <script>
+          const obraid = '{{obraid}}';
+          const partidaid = '{{partidaid}}';
+
+          document.getElementById('js-obra-select').value = obraid;
+          document.getElementById('js-partida-select').value = partidaid;
+
+     </script>
+{% endblock %}

@@ -1261,7 +1261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hotwired/stimulus-webpack-helpers@npm:^1.0.1":
+"@hotwired/stimulus-webpack-helpers@npm:^1.0.0, @hotwired/stimulus-webpack-helpers@npm:^1.0.1":
   version: 1.0.1
   resolution: "@hotwired/stimulus-webpack-helpers@npm:1.0.1"
   peerDependencies:
@@ -1270,7 +1270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hotwired/stimulus@npm:^3.0.0":
+"@hotwired/stimulus@npm:^3.0.0, @hotwired/stimulus@npm:^3.0.1":
   version: 3.0.1
   resolution: "@hotwired/stimulus@npm:3.0.1"
   checksum: 5f2dbfeb3dfff8472e1d0ef7db59a18d71540651861c0c5839fa32c56fcd5cae3fc6183a94746303c5adfbd66a9b552a3167e7e193c04dfaa6f51a8e5bea8e5e
@@ -6123,6 +6123,8 @@ __metadata:
     regenerator-runtime: ^0.13.2
     sass: ^1.49.8
     sass-loader: ^12.0.0
+    stimulus: ^3.0.1
+    sweetalert2: ^11.4.4
     vue: ^2.5
     vue-loader: ^15.9.5
     vue-template-compiler: ^2.6.14
@@ -6572,6 +6574,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stimulus@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "stimulus@npm:3.0.1"
+  dependencies:
+    "@hotwired/stimulus": ^3.0.1
+    "@hotwired/stimulus-webpack-helpers": ^1.0.0
+  checksum: 381b80d638b3168c3b7297777724127bfa96e57600bee73393017f10c9702cf313f4391dc5cd1dbe8a118fe3ae40dd66fdb1a72ee931ea9f26c0f342e53c15e8
+  languageName: node
+  linkType: hard
+
 "string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
@@ -6716,6 +6728,13 @@ __metadata:
   bin:
     svgo: bin/svgo
   checksum: b92f71a8541468ffd0b81b8cdb36b1e242eea320bf3c1a9b2c8809945853e9d8c80c19744267eb91cabf06ae9d5fff3592d677df85a31be4ed59ff78534fa420
+  languageName: node
+  linkType: hard
+
+"sweetalert2@npm:^11.4.4":
+  version: 11.4.4
+  resolution: "sweetalert2@npm:11.4.4"
+  checksum: 3e68b2072a3e3d2b13dc566c8bc44c781c81a667189effa59c75442067eb9b039909c2ec13870d1fccb2ff266a4de79baca26461bd01a9a0e2680a01d16bbd2f
   languageName: node
   linkType: hard
 

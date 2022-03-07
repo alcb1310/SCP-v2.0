@@ -21,7 +21,7 @@
             <li><a class='dropdown-item ' href='{{ path('obra_show') }}'  >Obra</a></li>
             <li><a class='dropdown-item' href='{{ path('presupuesto_show') }}' >Presupuesto</a></li>
             <li><a class='dropdown-item' href='{{ path('factura_show')}}' >Factura</a></li>
-            <li><a class='dropdown-item' href="#">Cierre de mes</a></li>
+            <li><a class='dropdown-item' href="{{ path('admin_cierre_mes') }}">Cierre de mes</a></li>
             <li><a class='dropdown-item' href='{{ path('actual') }}' >Avance de Obra</a></li>
             <li><a class='dropdown-item' href='#' >Flujo</a></li>
           </ul>
@@ -43,7 +43,7 @@
             <li><a class='dropdown-item' href='{{ path('control_actual')}}'>Control Actual</a></li>
             <li><a class='dropdown-item' href='{{ path('control_find')}}'>Control por Fechas</a></li>
             <li><a class='dropdown-item' href='{{ path('obra_gasmes')}}'>Gastado Mensual</a></li>
-            <li><a class='dropdown-item' href='#'>Presupuesto vs. Ejecutado</a></li>
+            <li><a class='dropdown-item' href='{{ path('reporte_gastado_actual') }}'>Presupuesto vs. Ejecutado</a></li>
           </ul>
         </li>
         <li class='nav-item dropdown'>
