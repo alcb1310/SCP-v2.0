@@ -204,7 +204,6 @@ class PresupuestoController extends AbstractController
             'obra' => $obraid,
             'partida' => $partidaid,
         ]);
-        dump($presupuesto);
         $form = $this->createForm(PresupuestoFormType::class, $presupuesto);
         $form->handleRequest($request);
         
@@ -221,8 +220,8 @@ class PresupuestoController extends AbstractController
                 $this->addFlash('error', $string);
             }
             return $this->redirectToRoute('presupuesto_show');
-        
         }
+        dump($presupuesto, $form);
         return $this->render('presupuesto/form.html.twig', [
             'form' => $form->createView(),
         ]);
