@@ -236,7 +236,7 @@ def mueveUser():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 
-# mueveProveedor()
+mueveProveedor()
 mueveObra()
 muevePartida()
 muevePresupuesto()

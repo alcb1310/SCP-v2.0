@@ -39,10 +39,8 @@ class DetalleFacturaController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) { 
-            dump($detalle);
             $data = $form->getData();
             $data->setTotal($data->getCantidad()*$data->getUnitario());
-            dump($data);
             if ($presupuestoRepository->grabaFactura($data, $data->getPartida(),$data->getFactura()->getObra(), $data->getTotal(), $data->getCantidad(), $data->getUnitario())){
                 $this->addFlash('success', 'Detalle factura grabado exitosamente');
             } else {

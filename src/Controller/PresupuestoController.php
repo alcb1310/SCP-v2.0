@@ -122,7 +122,6 @@ class PresupuestoController extends AbstractController
         // dd ($presupuestos);
         if ($form->isSubmitted() && $form->isValid()) { 
             $data = $form->getData();
-            dump($data);
             $presupuestos = $presupuestoRepository->getAllOrderedObra($data->getObra()->getId());
         }
         return $this->render('control/actual.html.twig', [
@@ -181,14 +180,12 @@ class PresupuestoController extends AbstractController
                         $em->flush();
                     }
                     $padre = $partida->getPadre();
-                    dump($partida, $data);
                 }
 
                 $string = 'Partida presupuestaria '. $partidainicial->getNombre() .' en la obra ' . $obra->getNombre() . ' creada satisfactoriamente';
                 $this->addFlash('success', $string);
                 $em->commit();
                 return $this->redirectToRoute('presupuesto_show');
-                dump($data, $em);
             } catch (Exception $e) {
                 $em->rollback();
                 throw $e;

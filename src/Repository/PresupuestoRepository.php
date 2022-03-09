@@ -65,7 +65,6 @@ class PresupuestoRepository extends ServiceEntityRepository
 
     public function grabaFactura(DetalleFactura $detalle,Partida $partida, Obra $obra, float $monto, float $cantidad, float $unitario) : bool
     {
-        dump ($partida, $obra, $monto, $cantidad);
         $partidaRepository = new PartidaRepository($this->registry);
         $this->em->beginTransaction();
         try {
@@ -102,13 +101,11 @@ class PresupuestoRepository extends ServiceEntityRepository
                         $data->setRendidotot($data->getRendidotot()+$monto);
                         $data->setPorgastot($data->getPorgastot() + $diff);
                         $data->setPresactu($data->getRendidotot()+$data->getPorgastot());
-                        dump($data);
                         $this->em->flush();
                     } else {
                         $this->em->rollback();
                         return false;
                     }
-                    dump($data);
                     $padre = $partida->getPadre();
             }
             $this->em->commit();
@@ -123,7 +120,6 @@ class PresupuestoRepository extends ServiceEntityRepository
 
     public function actualizaPresupuesto(Partida $partida, Obra $obra, float $oldPresupuesto, Presupuesto $newPresupuesto): bool
     {
-        dump($partida, $obra, $oldPresupuesto, $newPresupuesto);
         $partidaRepository = new PartidaRepository($this->registry);
         $this->em->beginTransaction();
         try {
@@ -146,7 +142,6 @@ class PresupuestoRepository extends ServiceEntityRepository
                         $this->em->rollback();
                         return false;
                     }
-                    dump($data);
                     $padre = $partida->getPadre();
             }
             $this->em->flush();
@@ -207,7 +202,6 @@ class PresupuestoRepository extends ServiceEntityRepository
                         $this->em->rollback();
                         return false;
                     }
-                    dump($data);
                     $padre = $partida->getPadre();
             }
             $this->em->commit();
