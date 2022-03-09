@@ -36,7 +36,7 @@ class PresupuestoFormType extends AbstractType
                 'class' => Partida::class,
                 'placeholder' => '--- Seleccione una partida ---',
                 'choices' => $this->partida
-                    ->findAllChilds(),
+                    ->getAllChilds(),
             ])
             ->add('porgascan', NumberType::class, [
                 'label' => 'Cantidad',
