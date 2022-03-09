@@ -48,7 +48,6 @@ class ObraController extends AbstractController
     public function edit($id, ObraRepository $obraRepository, EntityManagerInterface $em, Request $request): Response
     {
         $obra = $obraRepository->findOneBy(['id' => $id]);
-        dump($obra);
         $form = $this->createForm(ObraFormType::class, $obra);
         $form->handleRequest($request);
         
@@ -79,7 +78,6 @@ class ObraController extends AbstractController
 
         $obras = $obraRepository->getAllActive();
 
-        dump($facturas);
         return $this->render('obra/gastadomensual.html.twig', [
             'valores' => $facturas,
             'obras' => $obras   
@@ -91,7 +89,6 @@ class ObraController extends AbstractController
     {
         $obra = $obraRepository->findOneBy(['id' => $obraid]);
         $data = $obraRepository->getSumFacturaTotalByYearAndMonth($obra);
-        dump($data, $obra);
         // $datajs = json_encode($data);
         // dd($datajs);
         return new JsonResponse($data);

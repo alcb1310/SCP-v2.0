@@ -51,7 +51,6 @@ class ActualController extends AbstractController
             $presupuesto = $presupuestoRepository->findOneBy(['obra'=>$obra, 'partida'=>$partida]);
             $total = $data->getCasas()*$presupuesto->getPresactu()/$casas;
             $data->setTotal($total);
-            dump ($data, $presupuesto, $casas, $partida, $obra);
             $em->beginTransaction();
             try{
                 $em->persist($data);
@@ -65,7 +64,6 @@ class ActualController extends AbstractController
                             ]);
                         if ($data1){
                             $data1->setTotal($data1->getTotal()+$total);
-                            dump($data1);
                             $em->flush();
                         } else {
                             $data1 = new Actual();
@@ -75,7 +73,6 @@ class ActualController extends AbstractController
                             $em->persist($data1);
                             $em->flush();
                         }
-                        dump($data);
                         $padre = $partida->getPadre();
                 }
                 $em->commit();

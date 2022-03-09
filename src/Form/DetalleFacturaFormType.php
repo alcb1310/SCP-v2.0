@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Partida;
 use App\Entity\DetalleFactura;
-use App\Entity\Obra;
 use App\Repository\PartidaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -50,7 +50,6 @@ class ControlFormType extends AbstractType
                 'placeholder' => '--- Seleccione un nivel ---',
                 'choices' => $choice ,
                 'choice_label' => function ($choice, $key, $value){
-                    dump("Choice ". $choice, "Key " . $key, "Value ". $value);
                     return $value;
                 }
             ])
