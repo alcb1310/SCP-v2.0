@@ -204,6 +204,7 @@ class PresupuestoController extends AbstractController
             'obra' => $obraid,
             'partida' => $partidaid,
         ]);
+        dump($presupuesto);
         $form = $this->createForm(PresupuestoFormType::class, $presupuesto);
         dump($presupuesto, $form);
         $form->handleRequest($request);
