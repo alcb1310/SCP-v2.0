@@ -17,12 +17,10 @@ use App\Repository\PartidaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PresupuestoRepository;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use PhpParser\Node\Stmt\TryCatch;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PresupuestoController extends AbstractController
 {
@@ -204,9 +202,7 @@ class PresupuestoController extends AbstractController
             'obra' => $obraid,
             'partida' => $partidaid,
         ]);
-        dump($presupuesto);
         $form = $this->createForm(PresupuestoFormType::class, $presupuesto);
-        dump($presupuesto, $form);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) { 
