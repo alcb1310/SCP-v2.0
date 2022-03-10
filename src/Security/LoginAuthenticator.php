@@ -38,8 +38,10 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     {
         // dd('authenticate');
         $username = $request->request->get('username', '');
+        dump ($username);
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
+        dump($request);
         $pass = new Passport(
             new UserBadge($username),
             new PasswordCredentials($request->request->get('password', '')),
