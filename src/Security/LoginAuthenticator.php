@@ -37,9 +37,6 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
-        
-        dd('failure');
-        dd ($this->urlGenerator->generate('app_homepage'));
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
     }
