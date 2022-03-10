@@ -29,14 +29,14 @@ class ActualFormType extends AbstractType
             ->add('obra', EntityType::class,[
                 'class' => Obra::class,
                 'placeholder' => '--- Seleccione una obra ---',
-                'choices' => $this->obra->findAll(),
+                'choices' => $this->obra->getAllActive(),
             ])
             ->add('partida', EntityType::class, [
                 'class' => Partida::class,
                 'label' => 'Partida',
                 'placeholder' => '--- Seleccione una partida ---',
                 'choices' => $this->partida
-                    ->findAllParents(),
+                    ->findAll(),
             ])
             ->add('casas')
         ;
