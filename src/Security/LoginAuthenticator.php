@@ -57,12 +57,13 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             //     new CsrfToken('authenticate', $request->request->get('_csrf_token'))
             // ]
             );
-        dd ($pass);
+        // dd ($pass);
         return $pass;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        dd('success');
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
