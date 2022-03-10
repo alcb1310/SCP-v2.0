@@ -66,3 +66,15 @@ php bin/console doctrine:database:create
 ```
 php bin/console doctrine:migrations:migrate
 ```
+
+```
+composer require symfony/requirements-checker
+composer dump-env prod
+composer install --no-dev --optimize-autoloader
+APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+yarn install
+yarn build
+```
+
+actualizar httpd.conf
+reiniciar apache
