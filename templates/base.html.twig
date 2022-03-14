@@ -14,8 +14,8 @@
         {% endblock %}
     </head>
     <body class="bg-light">
-            {{ include('navbar.html.twig') }}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ include('navbar.html.twig') }}
             <p class='ms-4 ps-4' style='color: green'>
                 Bienvenido {{app.user.nombre}}
             </p>
