@@ -11,7 +11,7 @@
           <table class='table table-striped table-hover caption-top'>
                <caption>
                     Facturas del mes:  <br>
-                    Total: {{ total }}
+                    Total: {{ total|number_format(2, '.', ',') }}
                </caption>
                <thead>
                     <tr>
