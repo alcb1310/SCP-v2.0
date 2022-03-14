@@ -19,14 +19,22 @@
                     </tr>
                </thead>
                <tbody>
+                    {%set total=0 %}
                     {% for factura in facturas %}
                          <tr>
+                              {{total =  total + factura.total}}
                               <td>{{ factura.proveedor.nombre }}</td>
                               <td>{{ factura.numero }}</td>
                               <td>{{ factura.fecha|date('m/d/Y')}}</td>
                               <td align='right'>{{ factura.total|number_format(2, '.', ',') }}</td>
                          </tr>
                     {% endfor %}
+                    <tr>
+                         <td></td>
+                         <td></td>
+                         <td>Total: </td>
+                         <td>{{total}}</td>
+                    </tr>
                </tbody>
           </table>
      {% endif %}
