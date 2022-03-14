@@ -1,7 +1,7 @@
 import mysql.connector as mysql
 
 def mueveProveedor():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -24,7 +24,7 @@ def mueveProveedor():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def mueveObra():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -44,7 +44,7 @@ def mueveObra():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def muevePartida():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -64,7 +64,7 @@ def muevePartida():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def muevePresupuesto():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -91,7 +91,7 @@ def muevePresupuesto():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def mueveFactura():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -110,7 +110,7 @@ def mueveFactura():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def mueveDetalle():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -137,7 +137,7 @@ def mueveDetalle():
         print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def mueveControl():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -165,7 +165,7 @@ def mueveControl():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def mueveActual():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -193,7 +193,7 @@ def mueveActual():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def mueveFlujo():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
@@ -216,7 +216,7 @@ def mueveFlujo():
             print ("tbl_proveedor MySQL Error: %s" % str(e))
 
 def mueveUser():
-    db = mysql.connect(host = 'localhost', port='8889', user = 'root', passwd = 'root', database='controlpresupuestario2')
+    db = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='controlpresupuestario2')
     db2 = mysql.connect(host = 'localhost', port='3306', user = 'root', passwd = 'Root12345', database='scp2')
 
     cur = db.cursor()
