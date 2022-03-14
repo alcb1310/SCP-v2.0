@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Partida;
 use Pagerfanta\Pagerfanta;
 use App\Form\PartidaFormType;
 use App\Repository\PartidaRepository;
@@ -63,7 +62,6 @@ class PartidaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) { 
             $data = $form->getData();
             $referer = $request->request->get('referer');
-            // dd ($referer);
             $em->persist($data);
             $em->flush();
             $this->addFlash('success', 'Partida actualizada satisfactoriamente');

@@ -8,13 +8,10 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 class ControlController extends AbstractController
 {
@@ -55,7 +52,6 @@ class ControlController extends AbstractController
 
         // $json = $serializer->encode($controls, 'json', ['groups' => 'control:read']);
 
-        dd($serializer);
 
         return new JsonResponse($json);
     }

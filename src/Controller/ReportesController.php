@@ -35,16 +35,16 @@ class ReportesController extends AbstractController{
                $xValuesPresupuesto = array();
                $yValuesPresupuesto = array();
                foreach ($presupuestos as $presupuesto){
-                    $xValuesPresupuesto[] = $presupuesto->getPartida()->getCodigo();
-                    $cod = $presupuesto->getPartida()->getCodigo();
+                    $xValuesPresupuesto[] = $presupuesto->getPartida()->getNombre();
+                    $cod = $presupuesto->getPartida()->getNombre();
                     $yValuesPresupuesto[$cod] = $presupuesto->getRendidoTot();
                }
 
                $yValuesActual = array();
                $xValuesActual = array();
                foreach ($actuals as $actual){
-                    $xValuesActual[] = $actual->getPartida()->getCodigo();
-                    $cod = $actual->getPartida()->getCodigo();
+                    $xValuesActual[] = $actual->getPartida()->getNombre();
+                    $cod = $actual->getPartida()->getNombre();
                     $yValuesActual[$cod] = $actual->getTotal();
                }
                $diffs = array_diff($xValuesPresupuesto, $xValuesActual);

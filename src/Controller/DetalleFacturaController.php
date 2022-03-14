@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DetalleFacturaController extends AbstractController
 {
     #[Route('/detalle/factura/{factura}', name: 'detalle_add')]
-    public function index($factura, DetalleFacturaRepository $detalleFacturaRepository, Request $request, FacturaRepository $facturaRepository, PresupuestoRepository $presupuestoRepository, EntityManagerInterface $em): Response
+    public function index($factura, DetalleFacturaRepository $detalleFacturaRepository, Request $request, FacturaRepository $facturaRepository, PresupuestoRepository $presupuestoRepository): Response
     {
         $detalles = $detalleFacturaRepository->findBy([
             'factura' => $factura,
@@ -29,7 +29,6 @@ class DetalleFacturaController extends AbstractController
         $detalle = new DetalleFactura();
         $detalle->setFactura($factura);
         
-        // dd($detalle, $detalles);
         $detalle->setObranombre($factura->getObra()->getNombre());
         $detalle->setProveedornombre($detalle->getFactura()->getProveedor()->getNombre());
         $detalle->setFacturanum($detalle->getFactura()->getNumero());
@@ -80,7 +79,6 @@ class DetalleFacturaController extends AbstractController
                     $info[] = $par;
                 }
             }
-            // dd($info);
         }
 
         return $this->render('cuadre/gastomes.html.twig', [

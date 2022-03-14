@@ -33,7 +33,6 @@ class ControlFormType extends AbstractType
             $choice[$i] = $test['nivel'] ;
             $i++;
         }
-        // dd($tests, $choice);
         $builder
             ->add('fecha', DateType::class, [
                 'placeholder' => 'Ingrese la fecha',

@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Obra;
 use App\Entity\Partida;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

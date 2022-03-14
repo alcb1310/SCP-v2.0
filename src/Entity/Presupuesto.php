@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PresupuestoRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;

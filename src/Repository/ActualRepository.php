@@ -21,7 +21,6 @@ class ActualRepository extends ServiceEntityRepository
 
     public function getReporteActualGastado($obra, $partidas)
     {
-        // dd($obra, $partidas);
         return $this->createQueryBuilder('a')
             ->andWhere('a.partida in (:partidas)')
             ->andWhere('a.obra = :obra')
