@@ -33,7 +33,6 @@ class ObraController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) { 
             $data = $form->getData();
-            // dd($data);
             $em->persist($data);
             $em->flush();
             $this->addFlash('success', 'Obra creada satisfactoriamente');
@@ -71,7 +70,6 @@ class ObraController extends AbstractController
         $facturas = [];
         if ($form->isSubmitted() ) { 
             $data = $form->getData();
-            // dd($data->getNombre());
             $obra = $obraRepository->findOneBy(['nombre' => $data->getNombre()]);
             $facturas = $obraRepository->getSumFacturaTotalByYearAndMonth($obra);
         }
@@ -90,7 +88,6 @@ class ObraController extends AbstractController
         $obra = $obraRepository->findOneBy(['id' => $obraid]);
         $data = $obraRepository->getSumFacturaTotalByYearAndMonth($obra);
         // $datajs = json_encode($data);
-        // dd($datajs);
         return new JsonResponse($data);
     }
 

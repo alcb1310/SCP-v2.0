@@ -72,7 +72,6 @@ class PresupuestoRepository extends ServiceEntityRepository
                 'partida' => $partida->getId(),
                 'obra' => $obra->getId(),
             ]);
-            // dd($presupuesto, $detalle);
             $this->em->persist($detalle);
             $this->em->flush();
             $factura = $detalle->getFactura();
@@ -87,7 +86,6 @@ class PresupuestoRepository extends ServiceEntityRepository
             $presupuesto->setPorgastot($presupuesto->getPorgascan() * $presupuesto->getPorgascost());
             $presupuesto->setPresactu($presupuesto->getRendidotot()+$presupuesto->getPorgastot());
             $diff =  $presupuesto->getPorgastot() - $oldpresupuesto;
-            // dd($presupuesto, $oldpresupuesto, $diff);
             $this->em->persist($presupuesto);
             $this->em->flush();
             $padre = $partida->getPadre();
@@ -215,7 +213,6 @@ class PresupuestoRepository extends ServiceEntityRepository
 
     public function getReporteActualGastado($obra, $partidas)
     {
-        // dd($obra, $partidas);
         return $this->createQueryBuilder('a')
             ->andWhere('a.partida in (:partidas)')
             ->andWhere('a.obra = :obra')

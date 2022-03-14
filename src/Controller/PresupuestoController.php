@@ -117,7 +117,6 @@ class PresupuestoController extends AbstractController
 
         $form->handleRequest($request);
         $presupuestos = $presupuestoRepository;
-        // dd ($presupuestos);
         if ($form->isSubmitted() && $form->isValid()) { 
             $data = $form->getData();
             $presupuestos = $presupuestoRepository->getAllOrderedObra($data->getObra()->getId());

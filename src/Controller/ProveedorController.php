@@ -63,7 +63,6 @@ class ProveedorController extends AbstractController
             $this->addFlash('success', 'Proveedor grabado satisfactoriamente');
             return $this->redirectToRoute('proveedor_show');
         }
-        // dd($iriConverterInterface->getIriFromItem($proveedor));
         return $this->render('proveedor/form.html.twig', [
             'form' => $form->createView(),
             'proveedorId' => $iriConverterInterface->getIriFromItem($proveedor),

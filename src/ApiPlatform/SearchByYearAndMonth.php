@@ -13,7 +13,6 @@ class SearchByYearAndMonth extends AbstractFilter
                return;
           }
 
-          // dump ($property, $value);
           $alias = $queryBuilder->getRootAliases()[0];
           $queryBuilder->andWhere(sprintf('year(%s.fecha) = year(:fecha)', $alias))
                ->andWhere(sprintf('month(%s.fecha) = month(:fecha)', $alias))
@@ -22,7 +21,6 @@ class SearchByYearAndMonth extends AbstractFilter
 
      public function getDescription(string $resourceClass): array
      {
-          // dd($this->properties);
           return [
                'search' => [
                     'property' => 'fecha',
