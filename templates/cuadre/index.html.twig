@@ -19,10 +19,8 @@
                     </tr>
                </thead>
                <tbody>
-                    {%set total=0 %}
                     {% for factura in facturas %}
                          <tr>
-                              {{total =  total + factura.total}}
                               <td>{{ factura.proveedor.nombre }}</td>
                               <td>{{ factura.numero }}</td>
                               <td>{{ factura.fecha|date('m/d/Y')}}</td>
