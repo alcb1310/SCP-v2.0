@@ -44,7 +44,7 @@ class ReportesController extends AbstractController{
                $xValuesActual = array();
                foreach ($actuals as $actual){
                     $xValuesActual[] = $actual->getPartida()->getCodigo();
-                    $cod = $actual->getPartida()->getCodigo();
+                    $cod = $actual->getPartida()->getNombre();
                     $yValuesActual[$cod] = $actual->getTotal();
                }
                $diffs = array_diff($xValuesPresupuesto, $xValuesActual);
