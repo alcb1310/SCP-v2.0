@@ -36,7 +36,7 @@ class ReportesController extends AbstractController{
                $yValuesPresupuesto = array();
                foreach ($presupuestos as $presupuesto){
                     $xValuesPresupuesto[] = $presupuesto->getPartida()->getCodigo();
-                    $cod = $presupuesto->getPartida()->getCodigo();
+                    $cod = $presupuesto->getPartida()->getNombre();
                     $yValuesPresupuesto[$cod] = $presupuesto->getRendidoTot();
                }
 
