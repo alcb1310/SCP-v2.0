@@ -9,7 +9,10 @@
 
      {% if facturas  is defined %}
           <table class='table table-striped table-hover caption-top'>
-               <caption>Facturas del mes: </caption>
+               <caption>
+                    Facturas del mes:  <br>
+                    Total: {{ total|number_format(2, '.', ',') }}
+               </caption>
                <thead>
                     <tr>
                          <td align='center'>Proveedor</td>
@@ -27,6 +30,10 @@
                               <td align='right'>{{ factura.total|number_format(2, '.', ',') }}</td>
                          </tr>
                     {% endfor %}
+                    <tr>
+                         <td colspan="3" align="right">Total</td>
+                         <td align="right">{{ total|number_format(2, '.', ',') }}</td>
+                    </tr>
                </tbody>
           </table>
      {% endif %}

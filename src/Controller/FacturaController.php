@@ -73,10 +73,15 @@ class FacturaController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) { 
                 $data = $form->getData();
                 $facturas = $facturaRepository->getAllInMonth($data->getObra(), $data->getFecha());
+                $total=0;
+                foreach ($facturas as $factura){
+                    $total = $total + $factura->getTotal();
+                }
                 
                 return $this->render('cuadre/index.html.twig', [
                     'form' => $form->createView(),
                     'facturas' => $facturas,
+                    'total' => $total,
                 ]);
             }
             return $this->render('cuadre/index.html.twig', [
