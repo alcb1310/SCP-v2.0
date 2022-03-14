@@ -30,6 +30,10 @@
                               <td align='right'>{{ factura.total|number_format(2, '.', ',') }}</td>
                          </tr>
                     {% endfor %}
+                    <tr>
+                         <td colspan="3" align="right">Total</td>
+                         <td>{{ total|number_format(2, '.', ',') }}</td>
+                    </tr>
                </tbody>
           </table>
      {% endif %}
