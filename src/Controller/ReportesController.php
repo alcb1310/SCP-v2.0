@@ -15,6 +15,8 @@ class ReportesController extends AbstractController{
 
      #[Route('/reportes/gastadoactual', name:'reporte_gastado_actual')]
      public function gastadoActual( ObraRepository $obraRepository, PartidaRepository $partidaRepository, Request $request, ActualRepository $actualRepository, PresupuestoRepository $presupuestoRepository, ChartBuilderInterface $chartBuilder){
+          $obras= $obraRepository->getAllActive();
+          $partidas = $partidaRepository->findAllParents();
           $obra = null;
           $partida = null;
           $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
@@ -59,13 +61,13 @@ class ReportesController extends AbstractController{
                     'labels' => $xValuesPresupuesto,
                     'datasets' => [
                          [
-                              'label' => 'Presupuesto',
+                              'label' => 'Gastado',
                               'borderColor' => 'rgb(0, 102, 153)',
                               'backgroundColor' => 'rgb(0,102,153)',
                               'data' => $yValuesPresupuesto,
                          ],
                          [
-                              'label' => 'Ejecutado',
+                              'label' => 'Avance de Obra',
                               'borderColor' => 'rgb(207, 207, 12)',
                               'backgroundColor' =>'rgb(207, 207, 12)',
                               'data' => $yValuesActual,
@@ -90,16 +92,20 @@ class ReportesController extends AbstractController{
                          ]
                     ],
                ]);
+               return $this->render('reportes/actualGastado.html.twig', [
+                    'obras' => $obras,
+                    'partidas' => $partidas,
+                    'obraid' => $obraid,
+                    'partidaid' => $partidaid,
+               'chart' => $chart,
+               ]);
           }
-          $obras= $obraRepository->getAllActive();
-          $partidas = $partidaRepository->findAllParents();
 
           return $this->render('reportes/actualGastado.html.twig', [
                'obras' => $obras,
                'partidas' => $partidas,
                'obraid' => $obraid,
                'partidaid' => $partidaid,
-               'chart' => $chart,
           ]);
 
      }
