@@ -37,16 +37,21 @@ class PartidaController extends AbstractController
     {
         $form = $this->createForm(PartidaFormType::class);
         $form->handleRequest($request);
+        $referer = (string) $request->headers->get('referer');
+        dump($referer);
         
         if ($form->isSubmitted() && $form->isValid()) { 
+            $referer = $request->request->get('referer');
+            dump($referer);
             $data = $form->getData();
             $em->persist($data);
             $em->flush();
             $this->addFlash('success', 'Partida creada satisfactoriamente');
-            return $this->redirectToRoute('partida_show');
+            return $this->redirect($referer);
         }
         return $this->render('partida/form.html.twig', [
             'form' => $form->createView(),
+            'referer' => $referer,
         ]);
     }
 

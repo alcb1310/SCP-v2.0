@@ -39,7 +39,7 @@ class DetalleFacturaFormType extends AbstractType
             ->add('partida', EntityType::class, [
                 'class' => Partida::class,
                 'placeholder' => '--- Seleccione una partida ---',
-                'choices' => $this->partida->findAllChilds($this->obra),
+                'choices' => $this->partida->findAllChildsOrdered($this->obra),
             ])
             ->add('cantidad')
             ->add('unitario')

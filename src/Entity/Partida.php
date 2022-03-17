@@ -198,7 +198,8 @@ class Partida
 
     public function __toString()
     {
-        $val = '[' . $this->codigo . '] ' . $this->nombre;
+        // $val = '[' . $this->codigo . '] ' . $this->nombre;
+        $val = $this->nombre;
         return $val;
     }
 

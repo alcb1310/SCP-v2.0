@@ -27,7 +27,8 @@
                         <td align='center'>
                             <a href="{{ path('detalle_delete', {factura: detalle.factura.id, partida: detalle.partida.id })
                             }}">
-                                <img src="{{asset('img/trash-solid.svg')}}" alt="" class="minus" height='20px'>
+                                {# <img src="{{asset('img/trash-solid.svg')}}" alt="" class="minus" height='20px'> #}
+                                <span class="fa-solid fa-trash-can"></span>
                             </a>
                         </td>
                     </tr>
