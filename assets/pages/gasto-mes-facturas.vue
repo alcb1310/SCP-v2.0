@@ -48,27 +48,54 @@
                     <td align="center">C&oacute;digo</td>
                     <td align="center">Nombre</td>
                     <td align="center">Total</td>
-                    <td>&nbsp;</td>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="partida in partidas" :key="partida.codigo">
+                <tr
+                    v-for="partida in partidas"
+                    :key="partida.codigo"
+                    @click="openModal(partida.codigo)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                >
                     <td>{{ partida.codigo }}</td>
                     <td>{{ partida.nombre }}</td>
                     <td align="right">
                         {{ parseFloat(partida.total).toFixed(2) }}
                     </td>
-                    <td align="center">
-                        <a
-                            class="btn btn-link"
-                            @click="openModal(partida.codigo)"
-                        >
-                            <span class="fa-solid fa-magnifying-glass"></span>
-                        </a>
-                    </td>
                 </tr>
             </tbody>
         </table>
+        <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalle Facturas</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                            @click="closeModal()"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -85,6 +112,7 @@ export default {
             obras: null,
             selectedObra: null,
             partidas: null,
+            partidaSelected: null,
         };
     },
     async created() {
@@ -107,8 +135,11 @@ export default {
             );
             this.partidas = partidasFetched.data;
         },
-        openModal(event) {
-            console.log(event);
+        openModal(partida) {
+            this.partidaSelected = partida;
+        },
+        closeModal() {
+            this.partidaSelected = null;
         },
     },
 };

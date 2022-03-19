@@ -3,14 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\DetalleFactura;
-use App\Entity\Partida;
 use App\Form\DetalleFacturaFormType;
-use App\Form\GastoMesFormType;
 use App\Repository\DetalleFacturaRepository;
 use App\Repository\FacturaRepository;
-use App\Repository\PartidaRepository;
 use App\Repository\PresupuestoRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +50,7 @@ class DetalleFacturaController extends AbstractController
     }
 
     #[Route('/gasto/mes', name:'gasto_mes')]
-    public function gastoMes(Request $request, DetalleFacturaRepository $detalleFacturaRepository, PartidaRepository $partidaRepository):Response
+    public function gastoMes():Response
     {
         return $this->render('cuadre/gastomes.html.twig');
     }
