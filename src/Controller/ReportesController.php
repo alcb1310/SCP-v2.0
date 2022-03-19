@@ -1,20 +1,68 @@
 <?php
 namespace App\Controller;
 
-use App\Repository\ActualRepository;
+use App\Entity\Partida;
 use App\Repository\ObraRepository;
+use Symfony\UX\Chartjs\Model\Chart;
+use App\Repository\ActualRepository;
 use App\Repository\PartidaRepository;
 use App\Repository\PresupuestoRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\DetalleFacturaRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ReportesController extends AbstractController{
 
+     #[Route('/reportes/detallemes')]
+     public function detalleFacturasMes(Request $request, ObraRepository $obraRepository, PartidaRepository $partidaRepository, DetalleFacturaRepository $detalleFacturaRepository)
+     {
+          $partidaCod = $request->query->get('partida');
+          $fecha = $request->query->get('fecha');
+          $obraId = $request->query->get('obra');
+
+          $obra = $obraRepository->findOneBy(['id' => $obraId]);
+
+          $facturas = $detalleFacturaRepository->getAllByPartidaAndFecha($obra->getNombre(), $partidaCod, $fecha);
+
+          return new JsonResponse($facturas);
+     }
+
+     #[Route('/reportes/gastomes')]
+     public function gastoMensual(Request $request, ObraRepository $obraRepository, PartidaRepository $partidaRepository, DetalleFacturaRepository $detalleFacturaRepository)
+     {
+          $obraId = $request->query->get('obra');
+          $nivel = $request->query->get('nivel');
+          $fecha = $request->query->get('fecha');
+
+          $obra = $obraRepository->findOneBy(['id' => $obraId]);
+          $partidas = $partidaRepository->findBy(['nivel' => $nivel]);
+
+          $reporte = array();
+          foreach ($partidas as $partida){
+               $sumDetallePartidas = $detalleFacturaRepository->getAllSumByPartidaAndMonth($obra->getNombre(), $partida->getCodigo(), $fecha);
+               if ($sumDetallePartidas){
+                    $par = array();
+                    $total=0;
+                    foreach ($sumDetallePartidas as $sumDetallePartida){
+                         $total+=$sumDetallePartida['total'];
+                    }
+                    $par['codigo'] = $partida->getCodigo();
+                    $par['nombre'] = $partida->getNombre();
+                    $par['total'] = $total;
+                    $reporte[] = $par;
+               }
+          }
+          
+          return new JsonResponse($reporte);
+     }
+
      #[Route('/reportes/gastadoactual', name:'reporte_gastado_actual')]
      public function gastadoActual( ObraRepository $obraRepository, PartidaRepository $partidaRepository, Request $request, ActualRepository $actualRepository, PresupuestoRepository $presupuestoRepository, ChartBuilderInterface $chartBuilder){
+          $obras= $obraRepository->getAllActive();
+          $partidas = $partidaRepository->findAllParents();
           $obra = null;
           $partida = null;
           $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
@@ -59,13 +107,13 @@ class ReportesController extends AbstractController{
                     'labels' => $xValuesPresupuesto,
                     'datasets' => [
                          [
-                              'label' => 'Presupuesto',
+                              'label' => 'Gastado',
                               'borderColor' => 'rgb(0, 102, 153)',
                               'backgroundColor' => 'rgb(0,102,153)',
                               'data' => $yValuesPresupuesto,
                          ],
                          [
-                              'label' => 'Ejecutado',
+                              'label' => 'Avance de Obra',
                               'borderColor' => 'rgb(207, 207, 12)',
                               'backgroundColor' =>'rgb(207, 207, 12)',
                               'data' => $yValuesActual,
@@ -90,16 +138,20 @@ class ReportesController extends AbstractController{
                          ]
                     ],
                ]);
+               return $this->render('reportes/actualGastado.html.twig', [
+                    'obras' => $obras,
+                    'partidas' => $partidas,
+                    'obraid' => $obraid,
+                    'partidaid' => $partidaid,
+               'chart' => $chart,
+               ]);
           }
-          $obras= $obraRepository->getAllActive();
-          $partidas = $partidaRepository->findAllParents();
 
           return $this->render('reportes/actualGastado.html.twig', [
                'obras' => $obras,
                'partidas' => $partidas,
                'obraid' => $obraid,
                'partidaid' => $partidaid,
-               'chart' => $chart,
           ]);
 
      }

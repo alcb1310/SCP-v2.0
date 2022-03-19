@@ -4,76 +4,77 @@ var path = require('path');
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
-  Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
 Encore
-  // directory where compiled assets will be stored
-  .setOutputPath('public/build/')
-  // public path used by the web server to access the output path
-  .setPublicPath('/build')
-  // only needed for CDN's or sub-directory deploy
-  //.setManifestKeyPrefix('build/')
+    // directory where compiled assets will be stored
+    .setOutputPath('public/build/')
+    // public path used by the web server to access the output path
+    .setPublicPath('/build')
+    // only needed for CDN's or sub-directory deploy
+    //.setManifestKeyPrefix('build/')
 
-  /*
-   * ENTRY CONFIG
-   *
-   * Each entry will result in one JavaScript file (e.g. app.js)
-   * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
-   */
-  .addEntry('app', './assets/app.js')
-  .addEntry('control-actual', './assets/control-actual.js')
-  .addEntry('control-historico', './assets/control-historico.js')
-  .addEntry('proveedor', './assets/proveedor.js')
+    /*
+     * ENTRY CONFIG
+     *
+     * Each entry will result in one JavaScript file (e.g. app.js)
+     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
+     */
+    .addEntry('app', './assets/app.js')
+    .addEntry('control-actual', './assets/control-actual.js')
+    .addEntry('control-historico', './assets/control-historico.js')
+    .addEntry('proveedor', './assets/proveedor.js')
+    .addEntry('gasto-mes', './assets/gasto-mes.js')
 
-  // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-  .enableStimulusBridge('./assets/controllers.json')
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    .enableStimulusBridge('./assets/controllers.json')
 
-  // This is our alias to the root vue components dir
-  .addAliases({
-    '@': path.resolve(__dirname, 'assets'),
-    styles: path.resolve(__dirname, 'assets', 'styles'),
-  })
+    // This is our alias to the root vue components dir
+    .addAliases({
+        '@': path.resolve(__dirname, 'assets'),
+        styles: path.resolve(__dirname, 'assets', 'styles'),
+    })
 
-  // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-  .splitEntryChunks()
+    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
+    .splitEntryChunks()
 
-  // will require an extra script tag for runtime.js
-  // but, you probably want this, unless you're building a single-page app
-  .enableSingleRuntimeChunk()
+    // will require an extra script tag for runtime.js
+    // but, you probably want this, unless you're building a single-page app
+    .enableSingleRuntimeChunk()
 
-  /*
-   * FEATURE CONFIG
-   *
-   * Enable & configure other features below. For a full
-   * list of features, see:
-   * https://symfony.com/doc/current/frontend.html#adding-more-features
-   */
-  .cleanupOutputBeforeBuild()
-  .enableBuildNotifications()
-  .enableSourceMaps(!Encore.isProduction())
-  // enables hashed filenames (e.g. app.abc123.css)
-  .enableVersioning(Encore.isProduction())
+    /*
+     * FEATURE CONFIG
+     *
+     * Enable & configure other features below. For a full
+     * list of features, see:
+     * https://symfony.com/doc/current/frontend.html#adding-more-features
+     */
+    .cleanupOutputBeforeBuild()
+    .enableBuildNotifications()
+    .enableSourceMaps(!Encore.isProduction())
+    // enables hashed filenames (e.g. app.abc123.css)
+    .enableVersioning(Encore.isProduction())
 
-  .configureBabel((config) => {
-    config.plugins.push('@babel/plugin-proposal-class-properties');
-  })
+    .configureBabel((config) => {
+        config.plugins.push('@babel/plugin-proposal-class-properties');
+    })
 
-  // copies images files from assets to public
-  .copyFiles({
-    from: './assets/images',
-    to: 'images/[path][name].[hash8].[ext]',
-  })
+    // copies images files from assets to public
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[hash8].[ext]',
+    })
 
-  // enables @babel/preset-env polyfills
-  .configureBabelPresetEnv((config) => {
-    config.useBuiltIns = 'usage';
-    config.corejs = 3;
-  })
+    // enables @babel/preset-env polyfills
+    .configureBabelPresetEnv((config) => {
+        config.useBuiltIns = 'usage';
+        config.corejs = 3;
+    })
 
-  // enables Sass/SCSS support
-  .enableSassLoader()
-  .enableVueLoader();
+    // enables Sass/SCSS support
+    .enableSassLoader()
+    .enableVueLoader();
 
 // uncomment if you use TypeScript
 //.enableTypeScriptLoader()

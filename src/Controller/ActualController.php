@@ -93,7 +93,7 @@ class ActualController extends AbstractController
     }
 
     #[Route('/actual/edit/{obraid}/{partidaid}', name: 'actual_edit')]
-    public function edit($obraid, $partidaid, Request $request, EntityManagerInterface $em, ActualRepository $actualRepository): Response
+    public function edit($obraid, $partidaid, Request $request, EntityManagerInterface $em, ActualRepository $actualRepository, PresupuestoRepository $presupuestoRepository): Response
     {
         $actual = $actualRepository->findOneBy(['obra'=> $obraid, 'partida' => $partidaid]);
         $form = $this->createForm(ActualFormType::class, $actual);
@@ -102,7 +102,42 @@ class ActualController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) { 
             $data = $form->getData();
-            $em->flush();
+            $obra = $data->getObra();
+            $presupuesto  = $presupuestoRepository->findOneBy([
+                'obra' => $obra,
+                'partida' => $data->getPartida(),
+            ]);
+            $totalPorCasa = $presupuesto->getPresactu() / $presupuesto->getObra()->getCasas();
+            $totalActual = $data->getCasas() * $totalPorCasa;
+            $totalActualAntiguo =  $data->getTotal();
+            $diferenciaEnTotal = $totalActual - $totalActualAntiguo;
+            $em->beginTransaction();
+            dump($data);
+            try{
+                $data->setTotal($totalActual);
+                $em->persist($data);
+                $em->flush();
+                if ($diferenciaEnTotal != 0){
+                    $partidaPadre = $data->getPartida()->getPadre();
+                    while ($partidaPadre){
+                        $nuevoActual = $actualRepository->findOneBy([
+                            'obra' => $obra,
+                            'partida' => $partidaPadre,
+                        ]);
+                        $nuevoActual->setTotal($nuevoActual->getTotal()+$diferenciaEnTotal);
+                        $em->persist($nuevoActual);
+                        $em->flush();
+                        dump($nuevoActual);
+                        $partidaPadre = $nuevoActual->getPartida()->getPadre();
+                    }
+                }
+                $em->commit();
+                $this->addFlash('success', 'Avance de obra actualizado exitosamente');
+            } catch (\Exception $e){
+                $em->rollback();
+                return new Response($e, 500);
+            }
+            return $this->redirectToRoute('actual');
         }
 
         return $this->render('actual/form.html.twig', [

@@ -53,6 +53,19 @@ class PartidaRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function findAllChildsOrdered($obra){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.acumula=0')
+            ->andWhere('pres.obra=:obra')
+            ->setParameter('obra', $obra)
+            ->join('p.presupuestos', 'pres')
+            ->addOrderBy('p.nombre', 'ASC')
+            // ->select('p.nombre')
+            ->getQuery()
+            ->execute();
+    }
+
     public function getAllChilds(){
         return $this->createQueryBuilder('p')
             ->andWhere('p.acumula=0')
