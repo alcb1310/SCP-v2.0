@@ -20,6 +20,26 @@ class DetalleFacturaRepository extends ServiceEntityRepository
         parent::__construct($registry, DetalleFactura::class);
     }
 
+    public function getAllByPartidaAndFecha($obraNom, $partidaCod, $fecha)
+    {
+        return $this->createQueryBuilder('d')
+                        ->select('p.codigo partidacod, p.nombre partidanombre, pro.nombre proveedornombre, f.fecha, f.numero, d.total')
+                        ->andWhere('p.codigo like :partida')
+                        ->andWhere('o.nombre = :obra')
+                        ->andWhere('year(f.fecha) = year(:fecha)')
+                        ->andWhere('month(f.fecha) = month(:fecha)')
+                        ->join('d.partida', 'p')
+                        ->join('d.factura', 'f')
+                        ->join('f.obra', 'o')
+                        ->join('f.proveedor', 'pro')
+                        ->setParameter('partida', $partidaCod.'%')
+                        ->setParameter('obra', $obraNom)
+                        ->setParameter('fecha', $fecha)
+                        ->addOrderBy('p.codigo')
+                        ->getQuery()
+                        ->getResult();
+    }
+
     public function getAllSumByPartidaAndMonth($obraNom, $partidaCod, $fecha)
     {
         return $this->createQueryBuilder('d')

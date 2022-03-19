@@ -75,13 +75,43 @@
             data-bs-backdrop="static"
             data-bs-keyboard="false"
         >
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Detalle Facturas</h5>
                     </div>
                     <div class="modal-body">
-                        <p>Modal body text goes here.</p>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <td align="center">C&oacute;digo</td>
+                                    <td align="center">Nombre</td>
+                                    <td align="center">Proveedor</td>
+                                    <td align="center">Fecha</td>
+                                    <td align="center">Factura</td>
+                                    <td align="center">Total</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="(factura, key) in facturas"
+                                    :key="key"
+                                >
+                                    <td>{{ factura.partidacod }}</td>
+                                    <td>{{ factura.partidanombre }}</td>
+                                    <td>{{ factura.proveedornombre }}</td>
+                                    <td>
+                                        {{ factura.fecha.date }}
+                                    </td>
+                                    <td>{{ factura.numero }}</td>
+                                    <td align="right">
+                                        {{
+                                            parseFloat(factura.total).toFixed(2)
+                                        }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="modal-footer">
                         <button
@@ -101,7 +131,10 @@
 
 <script>
 import { fetchObras } from '@/services/obra-service';
-import { fetchReporteGastadoMes } from '@/services/reportes-service';
+import {
+    fetchReporteGastadoMes,
+    fetchFacturasGastadoMes,
+} from '@/services/reportes-service';
 
 export default {
     name: 'GastoMes',
@@ -112,7 +145,7 @@ export default {
             obras: null,
             selectedObra: null,
             partidas: null,
-            partidaSelected: null,
+            facturas: null,
         };
     },
     async created() {
@@ -135,11 +168,16 @@ export default {
             );
             this.partidas = partidasFetched.data;
         },
-        openModal(partida) {
-            this.partidaSelected = partida;
+        async openModal(partida) {
+            const facturasFetched = await fetchFacturasGastadoMes(
+                this.selectedObra,
+                this.fecha,
+                partida
+            );
+            this.facturas = facturasFetched.data;
         },
         closeModal() {
-            this.partidaSelected = null;
+            this.facturas = null;
         },
     },
 };
