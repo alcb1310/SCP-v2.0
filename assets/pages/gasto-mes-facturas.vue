@@ -101,7 +101,7 @@
                                     <td>{{ factura.partidanombre }}</td>
                                     <td>{{ factura.proveedornombre }}</td>
                                     <td>
-                                        {{ factura.fecha.date }}
+                                        {{ factura.fecha }}
                                     </td>
                                     <td>{{ factura.numero }}</td>
                                     <td align="right">
@@ -131,6 +131,8 @@
 
 <script>
 import { fetchObras } from '@/services/obra-service';
+import moment from 'moment';
+
 import {
     fetchReporteGastadoMes,
     fetchFacturasGastadoMes,
@@ -175,6 +177,10 @@ export default {
                 partida
             );
             this.facturas = facturasFetched.data;
+            this.facturas.forEach((factura) => {
+                const date = moment(factura.fecha.date).format('YYYY-MM-DD');
+                factura.fecha = date;
+            });
         },
         closeModal() {
             this.facturas = null;

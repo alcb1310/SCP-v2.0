@@ -4836,6 +4836,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"momentjs@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "momentjs@npm:2.0.0"
+  checksum: 797a481a8566f8b2fdd18cdd77678ec1db410df2faef71d24e63cadfc21fe775cb05f4994ebe918646318fdbc9f20a66989a9c25b9464dc69efdb47cc1d512d6
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -6119,6 +6126,7 @@ __metadata:
     font-awesome: ^4.7.0
     jquery: ^3.6.0
     moment: ^2.29.1
+    momentjs: ^2.0.0
     popper.js: ^1.16.1
     regenerator-runtime: ^0.13.2
     sass: ^1.49.8
