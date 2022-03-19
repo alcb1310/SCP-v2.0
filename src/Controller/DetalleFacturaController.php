@@ -56,35 +56,7 @@ class DetalleFacturaController extends AbstractController
     #[Route('/gasto/mes', name:'gasto_mes')]
     public function gastoMes(Request $request, DetalleFacturaRepository $detalleFacturaRepository, PartidaRepository $partidaRepository):Response
     {
-        $form = $this->createForm(GastoMesFormType::class);
-        $form->handleRequest($request);
-        $info = array();
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
-            $data = $form->getData();
-            $partidas = $partidaRepository->findBy(['nivel' => $data->getNivel()]);
-            foreach ($partidas as $partida => $value) {
-                # code...
-                $detalleinfo = $detalleFacturaRepository->getAllSumByPartidaAndMonth($data->getObraNombre(), $value->getCodigo(), $data->getFecha());
-                if ($detalleinfo){
-                    $sum = 0;
-                    $par = new Partida();
-                    foreach ($detalleinfo as $key1 => $value1) {
-                        # code...
-                        $sum += $value1['total'];
-                    }
-                    $par->setCodigo($value->getCodigo());
-                    $par->setNombre($value->getNombre());
-                    $par->setTotal($sum);
-                    $info[] = $par;
-                }
-            }
-        }
-
-        return $this->render('cuadre/gastomes.html.twig', [
-            'form' => $form->createView(),
-            'rubros' => $info,
-        ]);
+        return $this->render('cuadre/gastomes.html.twig');
     }
 
     #[Route('/detalle/factura/delete/{factura}/{partida}', name: 'detalle_delete')]

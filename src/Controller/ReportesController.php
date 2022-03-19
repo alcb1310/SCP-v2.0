@@ -1,17 +1,49 @@
 <?php
 namespace App\Controller;
 
-use App\Repository\ActualRepository;
+use App\Entity\Partida;
 use App\Repository\ObraRepository;
+use Symfony\UX\Chartjs\Model\Chart;
+use App\Repository\ActualRepository;
 use App\Repository\PartidaRepository;
 use App\Repository\PresupuestoRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\DetalleFacturaRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ReportesController extends AbstractController{
+
+     #[Route('/reportes/gastomes')]
+     public function gastoMensual(Request $request, ObraRepository $obraRepository, PartidaRepository $partidaRepository, DetalleFacturaRepository $detalleFacturaRepository)
+     {
+          $obraId = $request->query->get('obra');
+          $nivel = $request->query->get('nivel');
+          $fecha = $request->query->get('fecha');
+
+          $obra = $obraRepository->findOneBy(['id' => $obraId]);
+          $partidas = $partidaRepository->findBy(['nivel' => $nivel]);
+
+          $reporte = array();
+          foreach ($partidas as $partida){
+               $sumDetallePartidas = $detalleFacturaRepository->getAllSumByPartidaAndMonth($obra->getNombre(), $partida->getCodigo(), $fecha);
+               if ($sumDetallePartidas){
+                    $par = array();
+                    $total=0;
+                    foreach ($sumDetallePartidas as $sumDetallePartida){
+                         $total+=$sumDetallePartida['total'];
+                    }
+                    $par['codigo'] = $partida->getCodigo();
+                    $par['nombre'] = $partida->getNombre();
+                    $par['total'] = $total;
+                    $reporte[] = $par;
+               }
+          }
+          
+          return new JsonResponse($reporte);
+     }
 
      #[Route('/reportes/gastadoactual', name:'reporte_gastado_actual')]
      public function gastadoActual( ObraRepository $obraRepository, PartidaRepository $partidaRepository, Request $request, ActualRepository $actualRepository, PresupuestoRepository $presupuestoRepository, ChartBuilderInterface $chartBuilder){

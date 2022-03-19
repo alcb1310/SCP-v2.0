@@ -20,7 +20,7 @@ class DetalleFacturaRepository extends ServiceEntityRepository
         parent::__construct($registry, DetalleFactura::class);
     }
 
-    public function getAllSumByPartidaAndMonth($obraCod, $partida, $fecha)
+    public function getAllSumByPartidaAndMonth($obraNom, $partidaCod, $fecha)
     {
         return $this->createQueryBuilder('d')
                         ->andWhere('p.codigo like  :partida')
@@ -30,8 +30,8 @@ class DetalleFacturaRepository extends ServiceEntityRepository
                         ->join('d.partida', 'p')
                         ->join('d.factura', 'f')
                         ->join('f.obra', 'o')
-                        ->setParameter('partida', $partida.'%')
-                        ->setParameter('obra', $obraCod)
+                        ->setParameter('partida', $partidaCod.'%')
+                        ->setParameter('obra', $obraNom)
                         ->setParameter('fecha', $fecha)
                         ->select('p.codigo, p.nombre, sum(d.total) total')
                         ->addGroupBy('p.codigo')
