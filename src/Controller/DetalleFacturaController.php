@@ -17,9 +17,6 @@ class DetalleFacturaController extends AbstractController
     #[Route('/detalle/factura/{factura}', name: 'detalle_add')]
     public function index($factura, DetalleFacturaRepository $detalleFacturaRepository, Request $request, FacturaRepository $facturaRepository, PresupuestoRepository $presupuestoRepository): Response
     {
-        $detalles = $detalleFacturaRepository->findBy([
-            'factura' => $factura,
-        ]);
 
         $factura = $facturaRepository->findOneBy(['id' => $factura]);
         $detalle = new DetalleFactura();
@@ -42,6 +39,9 @@ class DetalleFacturaController extends AbstractController
                 $this->addFlash('error', 'No se pudo grabar el detalle');
             }
         }
+        $detalles = $detalleFacturaRepository->findBy([
+            'factura' => $factura,
+        ]);
 
         return $this->render('detalle_factura/index.html.twig', [
             'form' => $form->createView(),
