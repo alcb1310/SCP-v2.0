@@ -2,7 +2,13 @@
     <div>
         <FlashMessage></FlashMessage>
         <h4 v-if="!isEdit">Nueva Factura</h4>
-        <h4 v-if="isEdit">Editar Factura</h4>
+        <h4 v-else>Editar Factura</h4>
+
+        <p v-if="errors.length" style="color: red">
+            <ul style="list-style-type: none">
+                <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
+            </ul>
+        </p>
 
         <form class="form-group form-control">
             <div class="form-group row">
@@ -17,7 +23,7 @@
                         v-model="facturaInfo.obra.id"
                         @change="fetchAllPartidas"
                     >
-                        <option value="">--- Seleccione una obra ---</option>
+                        <option value="0">--- Seleccione una obra ---</option>
                         <option
                             v-for="obra in obras"
                             :key="obra.id"
@@ -152,7 +158,7 @@ export default {
                     id: 0,
                 },
                 proveedor: {
-                    id: '',
+                    id: 0,
                 },
                 detalleFacturas: null,
                 total: 0,
@@ -160,6 +166,7 @@ export default {
             obras: null,
             proveedores: null,
             enabledDetalle: false,
+            errors: [],
         };
     },
     computed: {
@@ -202,8 +209,34 @@ export default {
                 this.partidas = fetchedPartidas.data;
             }
         },
+        validateForm() {
+            this.errors = []
+            let hasErrors = false;
+            const selectedObra = document.querySelector('#obra-vue').value;
+            const selectedProveedor =document.querySelector('#proveedor-vue').value
+            if (selectedObra == 0){
+                this.errors.push('Seleccione una obra')
+                hasErrors = true
+            }
+            if(selectedProveedor == 0){
+                this.errors.push('Seleccione un proveedor')
+                hasErrors = true
+            }
+            if (this.facturaInfo.numero === ''){
+                this.errors.push('Ingrese el número de factura')
+                hasErrors = true
+            }
+            if (!isNaN(this.facturaInfo.fecha)){
+                this.errors.push('Seleccione la fecha de pago de la factura')
+                hasErrors = true
+            }
+            return hasErrors;
+        },
         grabaFactura(event) {
             event.preventDefault();
+            if (this.validateForm()) {
+                return;
+            }
             const obra = this.facturaInfo.obra.id;
             const proveedor = this.facturaInfo.proveedor.id;
             const fecha = this.facturaInfo.fecha;

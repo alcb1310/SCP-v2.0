@@ -54,6 +54,11 @@
                         <h5 class="modal-title">Detalle Facturas</h5>
                     </div>
                     <div class="modal-body">
+                        <p v-if="errors.length" style="color: red">
+                            <ul style="list-style-type: none">
+                                <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
+                            </ul>
+                        </p>
                         <div class="form-group row">
                             <div class="col-sm-3 col-form-label">
                                 <label for="partida-vue" class="form-label"
@@ -158,6 +163,7 @@ export default {
             cantidad: 0,
             unitario: 0,
             total: 0,
+            errors: [],
         };
     },
     props: {
@@ -184,12 +190,15 @@ export default {
     },
     methods: {
         calculaTotal() {
+            this.errors = [];
             if (isNaN(this.cantidad) || this.cantidad === '') {
                 this.cantidad = 0;
+                this.errors.push('Cantidad debe ser numérica');
                 return;
             }
             if (isNaN(this.unitario) || this.unitario === '') {
                 this.unitario = 0;
+                this.errors.push('Precio unitario debe ser numérico');
                 return;
             }
             this.total = this.cantidad * this.unitario;
@@ -204,10 +213,32 @@ export default {
         isNotANumber(val) {
             return isNaN(val) ? true : false;
         },
-        async grabaDetalle() {
+        validateFields(){
+            let hasErrors = false
+            this.errors = []
             const partidaSelected =
                 document.getElementById('partida-vue').value;
-            this.total = this.cantidad * this.unitario;
+            if (partidaSelected === ''){
+                this.errors.push('Seleccione una partida');
+                hasErrors = true
+            }
+            if (this.cantidad === 0 ){
+                this.errors.push('Cantidad no puede ser 0')
+                hasErrors = true
+            }
+            if (this.unitario === 0){
+                this.errors.push('Precio unitario no puede ser 0')
+                hasErrors = true
+            }
+            return hasErrors
+        },
+        async grabaDetalle() {
+             if (this.validateFields()){
+                 return
+             }
+            const partidaSelected =
+                document.getElementById('partida-vue').value;
+            this.cantidad * this.unitario;
             const response = await grabaDetalleFactura(
                 this.factura,
                 partidaSelected,
