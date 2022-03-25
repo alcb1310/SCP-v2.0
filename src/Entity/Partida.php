@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\PartidaRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Schema\UniqueConstraint;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Repository\PartidaRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use Doctrine\DBAL\Schema\UniqueConstraint;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PartidaRepository::class)]
 #[UniqueEntity(
@@ -34,6 +36,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations:[
         'get'
+    ],
+    order: [
+        'nombre'
+    ],
+    paginationEnabled: false,
+)]
+#[ApiFilter(
+    BooleanFilter::class,
+    properties:[
+        'acumula'
     ]
 )]
 class Partida
@@ -41,13 +53,17 @@ class Partida
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        'factura:read'
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50, unique:true)]
     #[Groups([
         'presupuesto:read',
         'proveedor:read',
-        'control:read'
+        'control:read',
+        'factura:read'
     ])]
     private $codigo;
 
@@ -55,7 +71,8 @@ class Partida
     #[Groups([
         'presupuesto:read',
         'proveedor:read',
-        'control:read'
+        'control:read',
+        'factura:read'
     ])]
     private $nombre;
 

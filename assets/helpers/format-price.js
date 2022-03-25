@@ -4,8 +4,9 @@
  * @param {number} price
  * @returns {string}
  */
-export default (price) =>
-  price.toLocaleString('en-US', {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2,
-  });
+export default (price) => {
+    return price.toLocaleString('en-US', {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+    });
+};

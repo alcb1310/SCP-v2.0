@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Form\CuadreFormType;
 use App\Form\FacturaFormType;
+use App\Repository\ObraRepository;
 use App\Repository\FacturaRepository;
+use App\Repository\ProveedorRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FacturaController extends AbstractController
 {
@@ -62,6 +64,8 @@ class FacturaController extends AbstractController
         }
         return $this->render('factura/form.html.twig', [
             'form' => $form->createView(),
+            'edit' => 1,
+            'factura' => $id
         ]);
     }
 

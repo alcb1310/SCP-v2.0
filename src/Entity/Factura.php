@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\FacturaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,10 +24,34 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 #[ApiResource(
     collectionOperations:[
-        'get'
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['factura:read']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['factura:write']
+            ]
+        ]
     ],
     itemOperations:[
-        'get'
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['factura:read']
+            ]
+        ],
+        'put' => [
+            'denormalization_context' => [
+                'groups' => ['factura:write']
+            ]
+        ]
+    ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties:[
+        'id'
     ]
 )]
 class Factura
@@ -33,40 +59,56 @@ class Factura
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        'factura:read'
+    ])]
     private $id;
 
     #[ORM\ManyToOne(targetEntity: Obra::class, inversedBy: 'facturas')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read', 
+        'factura:write'
     ])]
     private $obra;
 
     #[ORM\ManyToOne(targetEntity: Proveedor::class, inversedBy: 'facturas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        'factura:read',
+        'factura:write'
+    ])]
     private $proveedor;
 
     #[ORM\Column(type: 'string', length: 100)]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read',
+        'factura:write'
     ])]
     private $numero;
 
     #[ORM\Column(type: 'date')]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read',
+        'factura:write'
     ])]
     private $fecha;
 
     #[ORM\Column(type: 'float')]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read',
+        'factura:write'
     ])]
     private $total;
 
     #[ORM\OneToMany(mappedBy: 'factura', targetEntity: DetalleFactura::class)]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read'
     ])]
     private $detalleFacturas;
 
