@@ -1369,6 +1369,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smartweb/vue-flash-message@npm:^0.6.10":
+  version: 0.6.10
+  resolution: "@smartweb/vue-flash-message@npm:0.6.10"
+  checksum: 6c818104df4de46078d8b8ddcb6f4a49b3b69ee5c683551205db0ed2987ca8dfa3ef5a39a7214a7fa27fbc6e836bc4ccafe9873dbea799777ded75c44ee85d82
+  languageName: node
+  linkType: hard
+
 "@symfony/stimulus-bridge@npm:^3.0.0":
   version: 3.0.0
   resolution: "@symfony/stimulus-bridge@npm:3.0.0"
@@ -6115,6 +6122,7 @@ __metadata:
     "@fortawesome/fontawesome-free": ^6.0.0
     "@hotwired/stimulus": ^3.0.0
     "@popperjs/core": ^2.11.2
+    "@smartweb/vue-flash-message": ^0.6.10
     "@symfony/stimulus-bridge": ^3.0.0
     "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets"
     "@symfony/webpack-encore": ^1.7.0

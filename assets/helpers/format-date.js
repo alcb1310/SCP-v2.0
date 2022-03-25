@@ -1,3 +1,6 @@
 import moment from 'moment';
 
-export default (date) => moment(String(date)).format('YYYY/MM/DD');
+export default (date) => {
+    const x = moment(date).add(5, 'h').format('yyyy-MM-DD');
+    return x;
+};

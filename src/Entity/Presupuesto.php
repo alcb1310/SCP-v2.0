@@ -47,7 +47,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         'groups' => [
             'presupuesto:write'
         ]
-    ]
+        ],
+        order: [
+            'partida.codigo'
+        ]
 )]
 #[ApiFilter(
     SearchFilter::class,
@@ -55,6 +58,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         'obra' => 'exact'
     ]
 )]
+
 class Presupuesto
 {
     #[ORM\Id]

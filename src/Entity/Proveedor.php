@@ -31,26 +31,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
     columns: ['nombre']
 )]
 #[ApiResource(
-    order:[
-        'obra.nombre'=> 'ASC',
-        'fecha' => 'DESC'
-    ],
     collectionOperations:[
-        'get'
+        'get' => [
+            'normalizationContext' => [
+                'groups' => ['proveedor:read']
+            ]
+        ]
     ],
     itemOperations:[
         'get'
     ],
-    normalizationContext:[
-        'groups' => [
-            'proveedor:read'
-        ]
-        ],
-        denormalizationContext: [
-            'groups' => [
-                'proveedor:write'
-            ]
-        ]
+    paginationEnabled: false,
 )]
 #[ApiFilter(
     SearchFilter::class,
@@ -64,19 +55,25 @@ class Proveedor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        'factura:read',
+        'proveedor:read'
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 20, unique:true)]
     #[Groups([
         'proveedor:read',
-        'proveedor:write'
+        'proveedor:write',
+        'factura:read'
     ])]
     private $ruc;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Groups([
         'proveedor:read',
-        'proveedor:write'
+        'proveedor:write',
+        'factura:read'
     ])]
     private $nombre;
 
