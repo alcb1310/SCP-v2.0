@@ -15,12 +15,12 @@
         <table v-if="detalles" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <td align="center">C&oacute;digo</td>
-                    <td align="center">Partida</td>
-                    <td align="center">Cantidad</td>
-                    <td align="center">Unitario</td>
-                    <td align="center">Total</td>
-                    <td>&nbsp;</td>
+                    <th align="center">C&oacute;digo</th>
+                    <th align="center">Partida</th>
+                    <th align="center">Cantidad</th>
+                    <th align="center">Unitario</th>
+                    <th align="center">Total</th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,7 +94,7 @@
                                     name="cantidad"
                                     id="cantidad-vue"
                                     class="form-control"
-                                    v-model="cantidad"
+                                    v-model.number="cantidad"
                                     @change="calculaTotal"
                                 />
                             </div>
@@ -109,7 +109,7 @@
                                     name="unitario"
                                     id="unitario-vue"
                                     class="form-control"
-                                    v-model="unitario"
+                                    v-model.number.trim="unitario"
                                     @change="calculaTotal"
                                 />
                             </div>
@@ -124,7 +124,7 @@
                                     name="total"
                                     id="total-modal-vue"
                                     class="form-control"
-                                    v-model="total"
+                                    v-model.number="total"
                                     disabled
                                 />
                             </div>

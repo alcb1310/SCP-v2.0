@@ -1,123 +1,128 @@
 <template>
     <div>
         <FlashMessage></FlashMessage>
-        <h4 v-if="!isEdit">Nueva Factura</h4>
-        <h4 v-else>Editar Factura</h4>
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2 mb-3">
+                <h4 v-if="!isEdit">Nueva Factura</h4>
+                <h4 v-else>Editar Factura</h4>
+            </div>
+        </div>
 
         <p v-if="errors.length" style="color: red">
             <ul style="list-style-type: none">
                 <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
             </ul>
         </p>
-
-        <form class="form-group form-control">
-            <div class="form-group row">
-                <div class="col-sm-1 col-form-label">
-                    <label for="obra-vue" class="form-label">Obra</label>
-                </div>
-                <div class="col-sm-11">
-                    <select
-                        name="obra"
-                        id="obra-vue"
-                        class="select form-select"
-                        v-model="facturaInfo.obra.id"
-                        @change="fetchAllPartidas"
-                    >
-                        <option value="0">--- Seleccione una obra ---</option>
-                        <option
-                            v-for="obra in obras"
-                            :key="obra.id"
-                            :value="obra.id"
-                        >
-                            {{ obra.nombre }}
-                        </option>
-                    </select>
-                </div>
+        <div class="row mt-1">   
+            <div class="col-sm-8 offset-sm-2 ">
+                <form class="form-group form-control border shadow p-4">
+                    <div class="form-group row">
+                        <div class="col-sm-2 col-form-label">
+                            <label for="obra-vue" class="form-label">Obra</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select
+                                name="obra"
+                                id="obra-vue"
+                                class="select form-select"
+                                v-model="facturaInfo.obra.id"
+                                @change="fetchAllPartidas"
+                            >
+                                <option value="0">--- Seleccione una obra ---</option>
+                                <option
+                                    v-for="obra in obras"
+                                    :key="obra.id"
+                                    :value="obra.id"
+                                >
+                                    {{ obra.nombre }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2 col-form-label">
+                            <label for="proveedor-vue" class="form-label"
+                                >Proveedor</label
+                            >
+                        </div>
+                        <div class="col-sm-10">
+                            <select
+                                name="proveedor"
+                                id="proveedor-vue"
+                                class="select form-select"
+                                v-model="facturaInfo.proveedor.id"
+                            >
+                                <option value="0">
+                                    --- Seleccione un proveedor ---
+                                </option>
+                                <option
+                                    v-for="proveedor in proveedores"
+                                    :key="proveedor.id"
+                                    :value="proveedor.id"
+                                >
+                                    {{ proveedor.nombre }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2 col-form-label">
+                            <label for="numero-vue" class="form-label"
+                                >N&uacute;mero</label
+                            >
+                        </div>
+                        <div class="col-sm-10">
+                            <input
+                                type="text"
+                                name="numero"
+                                id="numero-vue"
+                                v-model="facturaInfo.numero"
+                                class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2 col-form-label">
+                            <label for="fecha-vue" class="form-label">Fecha</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input
+                                type="date"
+                                name="fecha"
+                                id="fecha-vue"
+                                class="form-control"
+                                v-model="facturaInfo.fecha"
+                            />
+                        </div>
+                        <div class="col-sm-2 col-form-label">
+                            <label for="total-vue">Total</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input
+                                type="text"
+                                name="total"
+                                id="total-vue"
+                                :value="totalFormated"
+                                class="form-control"
+                                disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-3 offset-sm-9">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                @click="grabaFactura($event)"
+                            >
+                                Grabar
+                            </button>
+                            <a href="/factura" class="btn btn-secondary">Regresar</a>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-1 col-form-label">
-                    <label for="proveedor-vue" class="form-label"
-                        >Proveedor</label
-                    >
-                </div>
-                <div class="col-sm-11">
-                    <select
-                        name="proveedor"
-                        id="proveedor-vue"
-                        class="select form-select"
-                        v-model="facturaInfo.proveedor.id"
-                    >
-                        <option value="0">
-                            --- Seleccione un proveedor ---
-                        </option>
-                        <option
-                            v-for="proveedor in proveedores"
-                            :key="proveedor.id"
-                            :value="proveedor.id"
-                        >
-                            {{ proveedor.nombre }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-1 col-form-label">
-                    <label for="numero-vue" class="form-label"
-                        >N&uacute;mero</label
-                    >
-                </div>
-                <div class="col-sm-11">
-                    <input
-                        type="text"
-                        name="numero"
-                        id="numero-vue"
-                        v-model="facturaInfo.numero"
-                        class="form-control"
-                    />
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-1 col-form-label">
-                    <label for="fecha-vue" class="form-label">Fecha</label>
-                </div>
-                <div class="col-sm-11">
-                    <input
-                        type="date"
-                        name="fecha"
-                        id="fecha-vue"
-                        class="form-control"
-                        v-model="facturaInfo.fecha"
-                    />
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-1 col-form-label">
-                    <label for="total-vue">Total</label>
-                </div>
-                <div class="col-sm-11">
-                    <input
-                        type="text"
-                        name="total"
-                        id="total-vue"
-                        :value="totalFormated"
-                        class="form-control"
-                        disabled
-                    />
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-2 offset-sm-10">
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                        @click="grabaFactura($event)"
-                    >
-                        Grabar
-                    </button>
-                    <a href="/factura" class="btn btn-secondary">Regresar</a>
-                </div>
-            </div>
-        </form>
+        </div>
         <detalle-factura
             :detalles="facturaInfo.detalleFacturas"
             :factura="facturaInfo.id"
@@ -258,6 +263,7 @@ export default {
                             title: 'Exito',
                             message: 'Factura creada correctamente!',
                             time: 2000,
+                            position: 'top right'
                         });
                     })
                     .catch((error) => {
@@ -277,6 +283,7 @@ export default {
                         title: 'Exito',
                         message: 'Factura actualizada correctamente!',
                         time: 2000,
+                        position: 'top right'
                     });
                 });
             }
