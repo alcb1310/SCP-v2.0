@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ReportesController extends AbstractController{
 
      #[Route('/reportes/detallemes')]
-     public function detalleFacturasMes(Request $request, ObraRepository $obraRepository, PartidaRepository $partidaRepository, DetalleFacturaRepository $detalleFacturaRepository)
+     public function detalleFacturasMes(Request $request, ObraRepository $obraRepository, DetalleFacturaRepository $detalleFacturaRepository)
      {
           $partidaCod = $request->query->get('partida');
           $fecha = $request->query->get('fecha');

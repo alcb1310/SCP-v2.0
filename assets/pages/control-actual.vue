@@ -1,19 +1,10 @@
 <template>
     <div>
+        Actual
         <div class="row">
             <div class="col-sm-8 offset-sm-2">
                 <div class="form-group border shadow p-4">
-                    <div class="row">
-                        <div class="col-sm-2 offset-sm-10">
-                            <button
-                                class="btn btn-primary float-end mb-2"
-                                @click="buscaDatos($event)"
-                            >
-                                Buscar
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-group row p-2">
+                    <div class="row p-2">
                         <div class="col-sm-1">
                             <label
                                 for="obra-vue"
@@ -42,7 +33,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row p-2">
+                    <div class="row p-2">
                         <div class="col-sm-1">
                             <label for="nivel" class="from-label">Nivel:</label>
                         </div>
@@ -60,6 +51,20 @@
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 offset-sm-9 mb-2">
+                            <button
+                                class="btn btn-primary"
+                                @click="buscaDatos($event)"
+                            >
+                                Buscar
+                            </button>
+                            <!-- <a href="#" class="btn btn-primary">
+                                <span class="fa-solid fa-file-excel"></span>
+                            </a> -->
+                            <a href="/" class="btn btn-secondary">Regresar</a>
                         </div>
                     </div>
                     <div
