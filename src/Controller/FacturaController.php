@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -152,10 +153,13 @@ class FacturaController extends AbstractController
         $sheet->getStyle('A6:D6')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('A3A3A3');
         
         $writer = new Xlsx($spreadsheet);
-        $filename = "text.xlsx";
+        $filename = "cuadre " . $fecha. ".xlsx";
         $writer->save($filename);
-        $filename = $filename;
         $response = new BinaryFileResponse($filename);
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
 
         $response->deleteFileAfterSend(true);
 
