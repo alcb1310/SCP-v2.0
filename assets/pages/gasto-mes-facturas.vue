@@ -1,47 +1,88 @@
 <template>
     <div>
-        <label for="obra" class="form-label">Obra</label>
-        <select
-            name="obra"
-            id="obra-vue"
-            class="select form-select"
-            @change="selectObra"
-        >
-            <option value="">--- Seleccione una Obra ---</option>
-            <option v-for="obra in obras" :key="obra['@id']" :value="obra.id">
-                {{ obra.nombre }}
-            </option>
-        </select>
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2">
+                <h3>Gastado en el Mes</h3>
+                <div class="form-group shadow border p-4">
+                    <div class="row">
+                        <div class="col-sm-1 form-label col-form-label">
+                            <label for="obra" class="form-label">Obra</label>
+                        </div>
+                        <div class="col-sm-11">
+                            <select
+                                name="obra"
+                                id="obra-vue"
+                                class="select form-select"
+                                v-model.number="selectedObra"
+                            >
+                                <option value="0">
+                                    --- Seleccione una Obra ---
+                                </option>
+                                <option
+                                    v-for="obra in obras"
+                                    :key="obra['@id']"
+                                    :value="obra.id"
+                                >
+                                    {{ obra.nombre }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1 form-label col-form-label">
+                            <label for="fecha" class="form-label">Fecha</label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input
+                                type="date"
+                                name="fecha"
+                                id="fecha"
+                                v-model="fecha"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col-sm-1 form-label col-form-label">
+                            <label for="nivel" class="form-label">Nivel</label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select
+                                name="nivel"
+                                id="nivel-vue"
+                                class="select form-select"
+                                v-model.number="selectedNivel"
+                            >
+                                <option value="0">
+                                    --- Seleccione un nivel ---
+                                </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 offset-sm-8">
+                            <button
+                                class="btn btn-primary"
+                                @click="buscaPartidas"
+                            >
+                                Buscar
+                            </button>
+                            <a
+                                :href="url"
+                                class="btn btn-success"
+                                id="js-export-excel"
+                            >
+                                <span class="fa-solid fa-file-excel"></span>
+                            </a>
+                            <a href="/" class="btn btn-secondary">Regresar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <label for="fecha" class="form-label">Fecha</label>
-        <input
-            type="date"
-            name="fecha"
-            id="fecha"
-            v-model="fecha"
-            class="form-control"
-        />
-
-        <label for="nivel" class="form-label">Nivel</label>
-        <select
-            name="nivel"
-            id="nivel-vue"
-            class="select form-select"
-            @change="selectNivel"
-        >
-            <option value="">--- Seleccione un nivel ---</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-        </select>
-
-        <button
-            class="btn btn-primary float-end mt-3 mb-4"
-            @click="buscaPartidas"
-        >
-            Buscar
-        </button>
         <table v-if="partidas" class="table table-striped table-hover mt-4">
             <thead>
                 <tr>
@@ -150,18 +191,26 @@ export default {
             facturas: null,
         };
     },
+    computed: {
+        url() {
+            if (this.selectedObra === 0 || this.selectedObra === '') {
+                return '#';
+            }
+            if (this.selectedNivel === 0 || this.selectedNivel === '') {
+                return '#';
+            }
+            if (this.fecha === null || this.fecha === '') {
+                return '#';
+            }
+            return `/exports/excel/gasto-mes/${this.selectedObra}/${this.fecha}/${this.selectedNivel}`;
+        },
+    },
     async created() {
         const obraResponse = await fetchObras();
 
         this.obras = obraResponse.data['hydra:member'];
     },
     methods: {
-        selectNivel() {
-            this.selectedNivel = document.getElementById('nivel-vue').value;
-        },
-        selectObra() {
-            this.selectedObra = document.getElementById('obra-vue').value;
-        },
         async buscaPartidas() {
             const partidasFetched = await fetchReporteGastadoMes(
                 this.selectedObra,
