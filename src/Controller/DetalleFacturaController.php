@@ -8,13 +8,10 @@ use App\Repository\DetalleFacturaRepository;
 use App\Repository\FacturaRepository;
 use App\Repository\PartidaRepository;
 use App\Repository\PresupuestoRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Json;
 
 class DetalleFacturaController extends AbstractController
 {
