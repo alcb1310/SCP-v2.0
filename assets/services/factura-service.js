@@ -1,5 +1,15 @@
 import axios from 'axios';
 
+export function fetchCuadre(obra, fecha) {
+    const url = '/reportes/cuadre';
+    return axios.get(url, {
+        params: {
+            obra,
+            fecha,
+        },
+    });
+}
+
 export function fetchFactura(id) {
     const url = '/api/facturas';
     return axios.get(url, {
