@@ -7,5 +7,9 @@ import axios from 'axios';
  * @returns {Array}
  */
 export function fetchProveedor(provIRI) {
-  return axios.get(provIRI);
+    return axios.get(provIRI);
+}
+
+export function fetchProveedores() {
+    return axios.get('/api/proveedors');
 }

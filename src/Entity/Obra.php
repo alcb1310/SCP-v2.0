@@ -57,7 +57,8 @@ class Obra
     #[ORM\Column(type: 'integer')]
     #[Groups([
         'obra:read',
-        'control:read'
+        'control:read',
+        'factura:read'
     ])]
     private $id;
 
@@ -65,7 +66,8 @@ class Obra
     #[Groups([
         'presupuesto:read',
         'obra:read',
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read'
     ])]
     private $nombre;
 

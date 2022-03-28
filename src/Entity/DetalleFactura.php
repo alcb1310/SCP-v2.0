@@ -31,6 +31,9 @@ class DetalleFactura
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        'factura:read'
+    ])]
     private $id;
 
     #[ORM\ManyToOne(targetEntity: Factura::class, inversedBy: 'detalleFacturas')]
@@ -40,25 +43,29 @@ class DetalleFactura
     #[ORM\ManyToOne(targetEntity: Partida::class, inversedBy: 'detalleFacturas')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read'
     ])]
     private $partida;
 
     #[ORM\Column(type: 'float')]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read'
     ])]
     private $cantidad;
 
     #[ORM\Column(type: 'float')]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read'
     ])]
     private $unitario;
 
     #[ORM\Column(type: 'float')]
     #[Groups([
-        'proveedor:read'
+        'proveedor:read',
+        'factura:read'
     ])]
     private $total;
 
