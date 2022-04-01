@@ -28,6 +28,7 @@ Encore
     .addEntry('gasto-mes', './assets/gasto-mes.js')
     .addEntry('factura', './assets/factura.js')
     .addEntry('cuadre', './assets/cuadre.js')
+    .addEntry('changepassword', './assets/changepassword.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
