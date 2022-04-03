@@ -3,7 +3,7 @@
         <FlashMessage></FlashMessage>
         <div class="row">
             <div class="col-sm-8 offset-sm-2">
-                <h4>Change your password</h4>
+                <h4>Cambio de Contrase&ntilde;a</h4>
                <p v-if="errors.length" style="color: red">
                     <ul style="list-style-type: none">
                          <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="row">
-                         <div class="col-sm-3 offset-sm-9">
+                         <div class="col-sm-4 offset-sm-8">
                               <button 
                                    type="submit" class="btn btn-primary" 
                                    @click.prevent="save"
