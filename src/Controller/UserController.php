@@ -43,10 +43,6 @@ class UserController extends AbstractController
             // $em->persist($user);
             $em->flush();
             $em->commit();
-            $this->addFlash("success", "Contraseña actualizada");
-            dump('flash');
-            return $this->redirect('/');
-            return $this->redirectToRoute('app_homepage');
 
         } catch (Exception $e){
             $em->rollback();

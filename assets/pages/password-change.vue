@@ -1,5 +1,6 @@
 <template>
     <div>
+        <FlashMessage></FlashMessage>
         <div class="row">
             <div class="col-sm-8 offset-sm-2">
                 <h4>Change your password</h4>
@@ -65,7 +66,6 @@ export default {
             pass2: null,
             username: window.userName,
             errors: [],
-            sucesses:[],
             passwordVerified: false,
         };
     },
@@ -81,9 +81,21 @@ export default {
 
             const response = await cambiaContrasena(this.username, this.pass1)
             if (response.status === 200){
-                 window.location.href = '/'
+               this.flashMessage.success({
+                    title: 'Exito',
+                    message: 'Contraseña actualizada correctamente!',
+                    time: 2000,
+                    position: 'top right'
+               });
+            } else {
+               this.flashMessage.error({
+                    title: 'Error',
+                    message: 'No se pudo actualizar la constraseña!',
+                    time: 2000,
+                    position: 'top right'
+               });
             }
-            console.log(response.status)
+            console.log(response)
         },
     },
 };
